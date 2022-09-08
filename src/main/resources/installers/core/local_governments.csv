@@ -1,0 +1,775 @@
+id;name;parent_id;country_id
+38;Aba North;1;164
+39;Aba South;1;164
+40;Arochukwu;1;164
+41;Bende;1;164
+42;Ikwuano;1;164
+43;Isiala-Ngwa North;1;164
+44;Isiala-Ngwa South;1;164
+45;Isuikwuato;1;164
+46;Obi Ngwa;1;164
+47;Ohafia;1;164
+48;Osisioma Ngwa;1;164
+49;Ugwunagbo;1;164
+50;Ukwa East;1;164
+51;Ukwa West;1;164
+52;Umuahia North;1;164
+53;Umuahia South;1;164
+54;Umu-Nneochi;1;164
+55;Demsa;2;164
+56;Fufore;2;164
+57;Ganye;2;164
+58;Girei;2;164
+59;Gombi;2;164
+60;Guyuk;2;164
+61;Hong;2;164
+62;Jada;2;164
+63;Lamurde;2;164
+64;Madagali;2;164
+65;Maiha;2;164
+66;Mayo-Belwa;2;164
+67;Michika;2;164
+68;Mubi North;2;164
+69;Mubi South;2;164
+70;Numan;2;164
+71;Shelleng;2;164
+72;Song;2;164
+73;Toungo;2;164
+74;Yola North;2;164
+75;Yola South;2;164
+76;Abak;3;164
+77;Eastern Obolo;3;164
+78;Eket;3;164
+79;Esit Eket;3;164
+80;Essien Udim;3;164
+81;Etim Ekpo;3;164
+82;Etinan;3;164
+83;Ibeno;3;164
+84;Ibesikpo Asutan;3;164
+85;Ibiono Ibom;3;164
+86;Ika;3;164
+87;Ikono;3;164
+88;Ikot Abasi;3;164
+89;Ikot Ekpene;3;164
+90;Ini;3;164
+91;Itu;3;164
+92;Mbo;3;164
+93;Mkpat Enin;3;164
+94;Nsit Atai;3;164
+95;Nsit Ibom;3;164
+96;Nsit Ubium;3;164
+97;Obot Akara;3;164
+98;Okobo;3;164
+99;Onna;3;164
+100;Oron;3;164
+101;Oruk Anam;3;164
+102;Udung Uko;3;164
+103;Ukanafun;3;164
+104;Uruan;3;164
+105;Urue-Offong/Oruko;3;164
+106;Uyo;3;164
+107;Aguata;4;164
+108;Anambra East;4;164
+109;Anambra West;4;164
+110;Anaocha;4;164
+111;Awka North;4;164
+112;Awka South;4;164
+113;Ayamelum;4;164
+114;Dunukofia;4;164
+115;Ekwusigo;4;164
+116;Idemili North;4;164
+117;Idemili South;4;164
+118;Ihiala;4;164
+119;Njikoka;4;164
+120;Nnewi North;4;164
+121;Nnewi South;4;164
+122;Ogbaru;4;164
+123;Onitsha North;4;164
+124;Onitsha South;4;164
+125;Orumba North;4;164
+126;Orumba South;4;164
+127;Oyi;4;164
+128;Alkaleri;5;164
+129;Bauchi;5;164
+130;Bogoro;5;164
+131;Damban;5;164
+132;Darazo;5;164
+133;Dass;5;164
+134;Gamawa;5;164
+135;Ganjuwa;5;164
+136;Giade;5;164
+137;Itas/Gadau;5;164
+138;Jama''are;5;164
+139;Katagum;5;164
+140;Kirfi;5;164
+141;Misau;5;164
+142;Ningi;5;164
+143;Shira;5;164
+144;Tafawa-Balewa;5;164
+145;Toro;5;164
+146;Warji;5;164
+147;Zaki;5;164
+148;Brass;6;164
+149;Ekeremor;6;164
+150;Kolokuma/Opokuma;6;164
+151;Nembe;6;164
+152;Ogbia;6;164
+153;Sagbama;6;164
+154;Southern Ijaw;6;164
+155;Yenegoa;6;164
+156;Ado;7;164
+157;Agatu;7;164
+158;Apa;7;164
+159;Buruku;7;164
+160;Gboko;7;164
+161;Guma;7;164
+162;Gwer East;7;164
+163;Gwer West;7;164
+164;Katsina-Ala;7;164
+165;Konshisha;7;164
+166;Kwande;7;164
+167;Logo;7;164
+168;Makurdi;7;164
+169;Obi;7;164
+170;Ogbadibo;7;164
+171;Ohimini;7;164
+172;Oju;7;164
+173;Okpokwu;7;164
+174;Oturkpo;7;164
+175;Tarka;7;164
+176;Ukum;7;164
+177;Ushongo;7;164
+178;Vandeikya;7;164
+179;Abadam;8;164
+180;Askira/Uba;8;164
+181;Bama;8;164
+182;Bayo;8;164
+183;Biu;8;164
+184;Chibok;8;164
+185;Damboa;8;164
+186;Dikwa;8;164
+187;Gubio;8;164
+188;Guzamala;8;164
+189;Gwoza;8;164
+190;Hawul;8;164
+191;Jere;8;164
+192;Kaga;8;164
+193;Kala/Balge;8;164
+194;Konduga;8;164
+195;Kukawa;8;164
+196;Kwaya Kusar;8;164
+197;Mafa;8;164
+198;Magumeri;8;164
+199;Maiduguri;8;164
+200;Marte;8;164
+201;Mobbar;8;164
+202;Monguno;8;164
+203;Ngala;8;164
+204;Nganzai;8;164
+205;Shani;8;164
+206;Abi;9;164
+207;Akamkpa;9;164
+208;Akpabuyo;9;164
+209;Bakassi;9;164
+210;Bekwara;9;164
+211;Biase;9;164
+212;Boki;9;164
+213;Calabar Municipal;9;164
+214;Calabar South;9;164
+215;Etung;9;164
+216;Ikom;9;164
+217;Obanliku;9;164
+218;Obubra;9;164
+219;Obudu;9;164
+220;Odukpani;9;164
+221;Ogoja;9;164
+222;Yakurr;9;164
+223;Yala;9;164
+224;Aniocha North;10;164
+225;Aniocha South;10;164
+226;Bomadi;10;164
+227;Burutu;10;164
+228;Ethiope East;10;164
+229;Ethiope West;10;164
+230;Ika North East;10;164
+231;Ika South;10;164
+232;Isoko North;10;164
+233;Isoko South;10;164
+234;Ndokwa East;10;164
+235;Ndokwa West;10;164
+236;Okpe;10;164
+237;Oshimili North;10;164
+238;Oshimili South;10;164
+239;Patani;10;164
+240;Sapele;10;164
+241;Udu;10;164
+242;Ughelli North;10;164
+243;Ughelli South;10;164
+244;Ukwuani;10;164
+245;Uvwie;10;164
+246;Warri North;10;164
+247;Warri South;10;164
+248;Warri South West;10;164
+249;Abakaliki;11;164
+250;Afikpo North;11;164
+251;Afikpo South;11;164
+252;Ebonyi;11;164
+253;Ezza North;11;164
+254;Ezza South;11;164
+255;Ikwo;11;164
+256;Ishielu;11;164
+257;Ivo;11;164
+258;Izzi;11;164
+259;Ohaozara;11;164
+260;Ohaukwu;11;164
+261;Onicha;11;164
+262;Akoko-Edo;12;164
+263;Egor;12;164
+264;Esan Central;12;164
+265;Esan North East;12;164
+266;Esan South East;12;164
+267;Esan West;12;164
+268;Etsako Central;12;164
+269;Etsako East;12;164
+270;Etsako West;12;164
+271;Igueben;12;164
+272;Ikpoba-Okha;12;164
+273;Oredo;12;164
+274;Orhionmwon;12;164
+275;Ovia North East;12;164
+276;Ovia South West;12;164
+277;Owan East;12;164
+278;Owan West;12;164
+279;Uhunmwonde;12;164
+280;Ado Ekiti;13;164
+281;Aiyekire;13;164
+282;Efon;13;164
+283;Ekiti East;13;164
+284;Ekiti South West;13;164
+285;Ekiti West;13;164
+286;Emure;13;164
+287;Ido-Osi;13;164
+288;Ijero;13;164
+289;Ikere;13;164
+290;Ikole;13;164
+291;Ilejemeje;13;164
+292;Irepodun/Ifelodun;13;164
+293;Ise/Orun;13;164
+294;Moba;13;164
+295;Oye;13;164
+296;Aninri;36;164
+297;Awgu;36;164
+298;Enugu East;36;164
+299;Enugu North;36;164
+300;Enugu South;36;164
+301;Ezeagu;36;164
+302;Igbo-Etiti;36;164
+303;Igbo-Eze North;36;164
+304;Igbo-Eze South;36;164
+305;Isi-Uzo;36;164
+306;Nkanu East;36;164
+307;Nkanu West;36;164
+308;Nsukka;36;164
+309;Oji-River;36;164
+310;Udenu;36;164
+311;Udi;36;164
+312;Uzo-Uwani;36;164
+313;Abaji;37;164
+314;Abuja Municipal Area Council;37;164
+315;Bwari;37;164
+316;Gwagwalada;37;164
+317;Kuje;37;164
+318;Kwali;37;164
+319;Akko;14;164
+320;Balanga;14;164
+321;Billiri;14;164
+322;Dukku;14;164
+323;Funakaye;14;164
+324;Gombe;14;164
+325;Kaltungo;14;164
+326;Kwami;14;164
+327;Nafada;14;164
+328;Shomgom;14;164
+329;Yamaltu/Deba;14;164
+330;Abo-Mbaise;15;164
+331;Ahiazu-Mbaise;15;164
+332;Ehime-Mbano;15;164
+333;Ezinihitte;15;164
+334;Ideato North;15;164
+335;Ideato South;15;164
+336;Ihitte/Uboma;15;164
+337;Ikeduru;15;164
+338;Isiala-Mbano;15;164
+339;Isu;15;164
+340;Mbaitoli;15;164
+341;Ngor-Okpala;15;164
+342;Njaba;15;164
+343;Nkwerre;15;164
+344;Nwangele;15;164
+345;Obowo;15;164
+346;Oguta;15;164
+347;Ohaji/Egbema;15;164
+348;Okigwe;15;164
+349;Orlu;15;164
+350;Orsu;15;164
+351;Oru East;15;164
+352;Oru West;15;164
+353;Owerri-Municipal;15;164
+354;Owerri North;15;164
+355;Owerri West;15;164
+356;Unuimo;15;164
+357;Auyo;16;164
+358;Babura;16;164
+359;Biriniwa;16;164
+360;Birnin Kudu;16;164
+361;Buji;16;164
+362;Dutse;16;164
+363;Gagarawa;16;164
+364;Garki;16;164
+365;Gumel;16;164
+366;Guri;16;164
+367;Gwaram;16;164
+368;Gwiwa;16;164
+369;Hadejia;16;164
+370;Jahun;16;164
+371;Kafin Hausa;16;164
+372;Kaugama;16;164
+373;Kazaure;16;164
+374;Kiri Kasama;16;164
+375;Kiyawa;16;164
+376;Maigatari;16;164
+377;Malam Madori;16;164
+378;Miga;16;164
+379;Ringim;16;164
+380;Roni;16;164
+381;Sule Tankarkar;16;164
+382;Taura;16;164
+383;Yankwashi;16;164
+384;Birnin-Gwari;17;164
+385;Chikun;17;164
+386;Giwa;17;164
+387;Igabi;17;164
+388;Ikara;17;164
+389;Jaba;17;164
+390;Jema''a;17;164
+391;Kachia;17;164
+392;Kaduna North;17;164
+393;Kaduna South;17;164
+394;Kagarko;17;164
+395;Kajuru;17;164
+396;Kaura;17;164
+397;Kauru;17;164
+398;Kubau;17;164
+399;Kudan;17;164
+400;Lere;17;164
+401;Makarfi;17;164
+402;Sabon-Gari;17;164
+403;Sanga;17;164
+404;Soba;17;164
+405;Zangon-Kataf;17;164
+406;Zaria;17;164
+407;Ajingi;18;164
+408;Albasu;18;164
+409;Bagwai;18;164
+410;Bebeji;18;164
+411;Bichi;18;164
+412;Bunkure;18;164
+413;Dala;18;164
+414;Dambatta;18;164
+415;Dawakin Kudu;18;164
+416;Dawakin Tofa;18;164
+417;Doguwa;18;164
+418;Fagge;18;164
+419;Gabasawa;18;164
+420;Garko;18;164
+421;Garum Mallam;18;164
+422;Gaya;18;164
+423;Gezawa;18;164
+424;Gwale;18;164
+425;Gwarzo;18;164
+426;Kabo;18;164
+427;Kano Municipal;18;164
+428;Karaye;18;164
+429;Kibiya;18;164
+430;Kiru;18;164
+431;Kumbotso;18;164
+432;Kunchi;18;164
+433;Kura;18;164
+434;Madobi;18;164
+435;Makoda;18;164
+436;Minjibir;18;164
+437;Nasarawa;18;164
+438;Rano;18;164
+439;Rimin Gado;18;164
+440;Rogo;18;164
+441;Shanono;18;164
+442;Sumaila;18;164
+443;Takai;18;164
+444;Tarauni;18;164
+445;Tofa;18;164
+446;Tsanyawa;18;164
+447;Tudun Wada;18;164
+448;Ungogo;18;164
+449;Warawa;18;164
+450;Wudil;18;164
+451;Bakori;19;164
+452;Batagarawa;19;164
+453;Batsari;19;164
+454;Baure;19;164
+455;Bindawa;19;164
+456;Charanchi;19;164
+457;Dandume;19;164
+458;Danja;19;164
+459;Dan Musa;19;164
+460;Daura;19;164
+461;Dutsi;19;164
+462;Dutsin-Ma;19;164
+463;Faskari;19;164
+464;Funtua;19;164
+465;Ingawa;19;164
+466;Jibia;19;164
+467;Kafur;19;164
+468;Kaita;19;164
+469;Kankara;19;164
+470;Kankia;19;164
+471;Katsina;19;164
+472;Kurfi;19;164
+473;Kusada;19;164
+474;Mai''adua;19;164
+475;Malumfashi;19;164
+476;Mani;19;164
+477;Mashi;19;164
+478;Matazu;19;164
+479;Musawa;19;164
+480;Rimi;19;164
+481;Sabuwa;19;164
+482;Safana;19;164
+483;Sandamu;19;164
+484;Zango;19;164
+485;Aleiro;20;164
+486;Arewa-Dandi;20;164
+487;Argungu;20;164
+488;Augie;20;164
+489;Bagudo;20;164
+490;Birnin Kebbi;20;164
+491;Bunza;20;164
+492;Dandi;20;164
+493;Fakai;20;164
+494;Gwandu;20;164
+495;Jega;20;164
+496;Kalgo;20;164
+497;Koko/Besse;20;164
+498;Maiyama;20;164
+499;Ngaski;20;164
+500;Sakaba;20;164
+501;Shanga;20;164
+502;Suru;20;164
+503;Wasagu/Danko;20;164
+504;Yauri;20;164
+505;Zuru;20;164
+506;Adavi;21;164
+507;Ajaokuta;21;164
+508;Ankpa;21;164
+509;Bassa;21;164
+510;Dekina;21;164
+511;Ibaji;21;164
+512;Idah;21;164
+513;Igalamela-Odolu;21;164
+514;Ijumu;21;164
+515;Kabba/Bunu;21;164
+516;Kogi;21;164
+517;Lokoja;21;164
+518;Mopa-Muro;21;164
+519;Ofu;21;164
+520;Ogori/Magongo;21;164
+521;Okehi;21;164
+522;Okene;21;164
+523;Olamabolo;21;164
+524;Omala;21;164
+525;Yagba East;21;164
+526;Yagba West;21;164
+527;Asa;22;164
+528;Baruten;22;164
+529;Edu;22;164
+530;Ekiti;22;164
+531;Ifelodun;22;164
+532;Ilorin East;22;164
+533;Ilorin South;22;164
+534;Ilorin West;22;164
+535;Irepodun;22;164
+536;Isin;22;164
+537;Kaiama;22;164
+538;Moro;22;164
+539;Offa;22;164
+540;Oke-Ero;22;164
+541;Oyun;22;164
+542;Pategi;22;164
+543;Agege;23;164
+544;Ajeromi-Ifelodun;23;164
+545;Alimosho;23;164
+546;Amuwo-Odofin;23;164
+547;Apapa;23;164
+548;Badagry;23;164
+549;Epe;23;164
+550;Eti-Osa;23;164
+551;Ibeju/Lekki;23;164
+552;Ifako-Ijaye;23;164
+553;Ikeja;23;164
+554;Ikorodu;23;164
+555;Kosofe;23;164
+556;Lagos Island;23;164
+557;Lagos Mainland;23;164
+558;Mushin;23;164
+559;Ojo;23;164
+560;Oshodi-Isolo;23;164
+561;Shomolu;23;164
+562;Surulere;23;164
+563;Akwanga;24;164
+564;Awe;24;164
+565;Doma;24;164
+566;Karu;24;164
+567;Keana;24;164
+568;Keffi;24;164
+569;Kokona;24;164
+570;Lafia;24;164
+571;Nasarawa;24;164
+572;Nasarawa-Eggon;24;164
+573;Obi;24;164
+574;Toto;24;164
+575;Wamba;24;164
+576;Agaie;25;164
+577;Agwara;25;164
+578;Bida;25;164
+579;Borgu;25;164
+580;Bosso;25;164
+581;Chanchaga;25;164
+582;Edati;25;164
+583;Gbako;25;164
+584;Gurara;25;164
+585;Katcha;25;164
+586;Kontagora;25;164
+587;Lapai;25;164
+588;Lavun;25;164
+589;Magama;25;164
+590;Mariga;25;164
+591;Mashegu;25;164
+592;Mokwa;25;164
+593;Muya;25;164
+594;Paikoro;25;164
+595;Rafi;25;164
+596;Rijau;25;164
+597;Shiroro;25;164
+598;Suleja;25;164
+599;Tafa;25;164
+600;Wushishi;25;164
+601;Abeokuta North;26;164
+602;Abeokuta South;26;164
+603;Ado-Odo/Ota;26;164
+604;Egbado North;26;164
+605;Egbado South;26;164
+606;Ewekoro;26;164
+607;Ifo;26;164
+608;Ijebu East;26;164
+609;Ijebu North;26;164
+610;Ijebu North East;26;164
+611;Ijebu Ode;26;164
+612;Ikenne;26;164
+613;Imeko Afon;26;164
+614;Ipokia;26;164
+615;Obafemi-Owode;26;164
+616;Odeda;26;164
+617;Odogbolu;26;164
+618;Ogun Waterside;26;164
+619;Remo North;26;164
+620;Shagamu;26;164
+621;Akoko North East;27;164
+622;Akoko North West;27;164
+623;Akoko South East;27;164
+624;Akoko South West;27;164
+625;Akure North;27;164
+626;Akure South;27;164
+627;Ese-Odo;27;164
+628;Idanre;27;164
+629;Ifedore;27;164
+630;Ilaje;27;164
+631;Ile-Oluji-Okeigbo;27;164
+632;Irele;27;164
+633;Odigbo;27;164
+634;Okitipupa;27;164
+635;Ondo East;27;164
+636;Ondo West;27;164
+637;Ose;27;164
+638;Owo;27;164
+639;Aiyedade;28;164
+640;Aiyedire;28;164
+641;Atakunmosa East;28;164
+642;Atakunmosa West;28;164
+643;Boluwaduro;28;164
+644;Boripe;28;164
+645;Ede North;28;164
+646;Ede South;28;164
+647;Egbedore;28;164
+648;Ejigbo;28;164
+649;Ife Central;28;164
+650;Ifedayo;28;164
+651;Ife East;28;164
+652;Ifelodun;28;164
+653;Ife North;28;164
+654;Ife South;28;164
+655;Ila;28;164
+656;Ilesha East;28;164
+657;Ilesha West;28;164
+658;Irepodun;28;164
+659;Irewole;28;164
+660;Isokan;28;164
+661;Iwo;28;164
+662;Obokun;28;164
+663;Odo-Otin;28;164
+664;Ola-Oluwa;28;164
+665;Olorunda;28;164
+666;Oriade;28;164
+667;Orolu;28;164
+668;Osogbo;28;164
+669;Afijio;29;164
+670;Akinyele;29;164
+671;Atiba;29;164
+672;Atisbo;29;164
+673;Egbeda;29;164
+674;Ibadan North;29;164
+675;Ibadan North East;29;164
+676;Ibadan North West;29;164
+677;Ibadan South East;29;164
+678;Ibadan South West;29;164
+679;Ibarapa Central;29;164
+680;Ibarapa East;29;164
+681;Ibarapa North;29;164
+682;Ido;29;164
+683;Irepo;29;164
+684;Iseyin;29;164
+685;Itesiwaju;29;164
+686;Iwajowa;29;164
+687;Kajola;29;164
+688;Lagelu;29;164
+689;Ogbomosho North;29;164
+690;Ogbomosho South;29;164
+691;Ogo Oluwa;29;164
+692;Olorunsogo;29;164
+693;Oluyole;29;164
+694;Ona-Ara;29;164
+695;Orelope;29;164
+696;Ori Ire;29;164
+697;Oyo East;29;164
+698;Oyo West;29;164
+699;Saki East;29;164
+700;Saki West;29;164
+701;Surulere;29;164
+702;Barkin Ladi;30;164
+703;Bassa;30;164
+704;Bokkos;30;164
+705;Jos East;30;164
+706;Jos North;30;164
+707;Jos South;30;164
+708;Kanam;30;164
+709;Kanke;30;164
+710;Langtang Norh;30;164
+711;Langtang South;30;164
+712;Mangu;30;164
+713;Mikang;30;164
+714;Pankshin;30;164
+715;Qua''an Pan;30;164
+716;Riyom;30;164
+717;Shendam;30;164
+718;Wase;30;164
+719;Abua/Odual;31;164
+720;Ahoada East;31;164
+721;Ahoada West;31;164
+722;Akuku Toru;31;164
+723;Andoni;31;164
+724;Asari-Toru;31;164
+725;Bonny;31;164
+726;Degema;31;164
+727;Eleme;31;164
+728;Emuoha;31;164
+729;Etche;31;164
+730;Gokana;31;164
+731;Ikwerre;31;164
+732;Khana;31;164
+733;Obio/Akpor;31;164
+734;Ogba/Egbema/Ndoni;31;164
+735;Ogu/Bolo;31;164
+736;Okrika;31;164
+737;Omumma;31;164
+738;Opobo/Nkoro;31;164
+739;Oyigbo;31;164
+740;Port-Harcourt;31;164
+741;Tai;31;164
+742;Binji;32;164
+743;Bodinga;32;164
+744;Dange Shuni;32;164
+745;Gada;32;164
+746;Goronyo;32;164
+747;Gudu;32;164
+748;Gwadabawa;32;164
+749;Illela;32;164
+750;Isa;32;164
+751;Kebbe;32;164
+752;Kware;32;164
+753;Rabah;32;164
+754;Sabon Birni;32;164
+755;Shagari;32;164
+756;Silame;32;164
+757;Sokoto North;32;164
+758;Sokoto South;32;164
+759;Tambuwal;32;164
+760;Tangaza;32;164
+761;Tureta;32;164
+762;Wamakko;32;164
+763;Wurno;32;164
+764;Yabo;32;164
+765;Ardo-Kola;33;164
+766;Bali;33;164
+767;Donga;33;164
+768;Gashaka;33;164
+769;Gassol;33;164
+770;Ibi;33;164
+771;Jalingo;33;164
+772;Karim-Lamido;33;164
+773;Kurmi;33;164
+774;Lau;33;164
+775;Sardauna;33;164
+776;Takum;33;164
+777;Ussa;33;164
+778;Wukari;33;164
+779;Yorro;33;164
+780;Zing;33;164
+781;Bade;34;164
+782;Bursari;34;164
+783;Damaturu;34;164
+784;Fika;34;164
+785;Fune;34;164
+786;Geidam;34;164
+787;Gujba;34;164
+788;Gulani;34;164
+789;Jakusko;34;164
+790;Karasuwa;34;164
+791;Machina;34;164
+792;Nangere;34;164
+793;Nguru;34;164
+794;Potiskum;34;164
+795;Tarmua;34;164
+796;Yunusari;34;164
+797;Yusufari;34;164
+798;Anka;35;164
+799;Bakura;35;164
+800;Birnin Magaji;35;164
+801;Bukkuyum;35;164
+802;Bungudu;35;164
+803;Gummi;35;164
+804;Gusau;35;164
+805;Kaura Namoda;35;164
+806;Maradun;35;164
+807;Maru;35;164
+808;Shinkafi;35;164
+809;Talata Mafara;35;164
+810;Tsafe;35;164
+811;Zurmi;35;164

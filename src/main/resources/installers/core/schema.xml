@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <property name="autoIncrement" value="true"/>
+
+    <changeSet author="mattae" id="20210120232001-01">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="country"/>
+            </not>
+        </preConditions>
+        <createTable tableName="country">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="countryPK"/>
+            </column>
+            <column name="code" type="VARCHAR(4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <loadData encoding="UTF-8"
+                  file="installers/core/countries.csv"
+                  separator=";"
+                  tableName="country"/>
+    </changeSet>
+
+    <changeSet author="mattae" id="20210120232001-02">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="administrative_division"/>
+            </not>
+        </preConditions>
+        <createTable tableName="administrative_division">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="adminDivisionPK"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="code" type="VARCHAR(4)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="country_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parent_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="country_id" baseTableName="administrative_division"
+                                 constraintName="fk_administrative_division_country_id"
+                                 deferrable="false" initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="country"/>
+
+        <addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="administrative_division"
+                                 constraintName="fk_administrative_division_parent_id"
+                                 deferrable="false" initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="administrative_division"/>
+
+        <loadData encoding="UTF-8"
+                  file="installers/core/states.csv"
+                  separator=";"
+                  tableName="administrative_division"/>
+
+        <loadData encoding="UTF-8"
+                  file="installers/core/local_governments.csv"
+                  separator=";"
+                  tableName="administrative_division"/>
+    </changeSet>
+
+    <changeSet author="mattae" id="20210120232001-03">
+        <createTable tableName="plugin">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(64)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_plugin_name"/>
+            </column>
+            <column name="version" type="varchar(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="started" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="logo" type="text"/>
+            <column name="data" type="bytea"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="mattae" id="20210120232001-04">
+        <createTable tableName="party">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="type" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="legal_type" type="varchar(32)"/>
+            <column name="display_name" type="varchar(16)"/>
+            <column name="archived" type="boolean" defaultValue="false"/>
+            <column name="created_date" type="timestamp" defaultValueComputed="current_timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp" defaultValueComputed="current_timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="mattae" id="20210120232001-05">
+        <createTable tableName="party_addresses">
+            <column name="id" type="uuid">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="party_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_type" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="line1" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="line2" type="varchar(64)"/>
+            <column name="city" type="varchar(32)"/>
+            <column name="state" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="postal_code" type="varchar(16)"/>
+            <column name="archived" type="boolean" defaultValue="false"/>
+            <column name="created_date" type="timestamp" defaultValueComputed="current_timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp" defaultValueComputed="current_timestamp"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="party_addresses" baseColumnNames="party_id"
+                                 constraintName="fk_party_address_party_id" referencedTableName="party"
+                                 referencedColumnNames="id"/>
+
+        <sql>
+            CREATE INDEX idx_party_addresses ON party_addresses (party_id) WHERE archived = false;
+        </sql>
+    </changeSet>
+
+    <changeSet author="mattae" id="20210120232001-06">
+        <createTable tableName="party_identifiers">
+            <column name="id" type="uuid">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="party_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="register" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lifecycle_status" type="varchar(32)"/>
+            <column name="from_date" type="timestamp"/>
+            <column name="to_date" type="timestamp"/>
+            <column name="archived" type="boolean" defaultValue="false"/>
+            <column name="created_date" type="timestamp" defaultValueComputed="current_timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp" defaultValueComputed="current_timestamp"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="party_identifiers" baseColumnNames="party_id"
+                                 constraintName="fk_party_identifiers_party_id" referencedTableName="party"
+                                 referencedColumnNames="id"/>
+
+        <sql>
+            CREATE INDEX idx_party_identifiers ON party_identifiers (party_id) WHERE archived = false;
+        </sql>
+    </changeSet>
+
+    <changeSet author="mattae" id="20210120232001-07">
+        <createTable tableName="organisation">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(64)"/>
+            <column name="phone" type="varchar(32)"/>
+            <column name="establishment_date" type="date"/>
+            <column name="parent_id" type="UUID"/>
+            <column name="party_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="archived" type="boolean" defaultValue="false"/>
+            <column name="active" type="boolean" defaultValue="true"/>
+            <column name="created_date" type="timestamp" defaultValueComputed="current_timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp" defaultValueComputed="current_timestamp"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="organisation" baseColumnNames="parent_id"
+                                 constraintName="fk_organisation_parent_id" referencedTableName="organisation"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="organisation" baseColumnNames="party_id"
+                                 constraintName="fk_organisation_party_id" referencedTableName="party"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet author="mattae" id="20210120232001-08">
+        <createTable tableName="individual">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="title" type="varchar(32)"/>
+            <column name="initials" type="varchar(8)"/>
+            <column name="given_name" type="varchar(64)"/>
+            <column name="preferred_given_name" type="varchar(64)"/>
+            <column name="middle_name" type="varchar(64)"/>
+            <column name="family_name" type="varchar(64)"/>
+            <column name="preferred_family_name" type="varchar(64)"/>
+            <column name="preferred_name" type="varchar(64)"/>
+            <column name="honorific" type="varchar(32)"/>
+            <column name="salutation" type="varchar(32)"/>
+            <column name="sex" type="varchar(32)"/>
+            <column name="email" type="varchar(64)"/>
+            <column name="phone" type="varchar(32)"/>
+            <column name="photo_url" type="text"/>
+            <column name="date_of_birth" type="date"/>
+            <column name="place_of_birth" type="varchar(64)"/>
+            <column name="country_of_birth" type="varchar(64)"/>
+            <column name="date_of_death" type="date"/>
+            <column name="place_of_death" type="varchar(64)"/>
+            <column name="country_of_death" type="varchar(64)"/>
+            <column name="party_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organisation_id" type="UUID">
+                <constraints nullable="true"/>
+            </column>
+            <column name="archived" type="boolean" defaultValue="false"/>
+            <column name="created_date" type="timestamp" defaultValueComputed="current_timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date" type="timestamp" defaultValueComputed="current_timestamp"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="individual" baseColumnNames="party_id"
+                                 constraintName="fk_individual_party_id" referencedTableName="party"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="individual" baseColumnNames="organisation_id"
+                                 constraintName="fk_individual_organisation_id" referencedTableName="organisation"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+
+    <changeSet id="20211019005923-01" author="mattae">
+        <createTable tableName="value_set">
+            <column name="id" type="serial" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="code" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="display" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="system" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lang" type="varchar(2)"/>
+            <column name="active" type="boolean" defaultValue="true"/>
+            <column name="plugin_id" type="JAVA.UTIL.UUID"/>
+        </createTable>
+
+        <createIndex tableName="value_set" indexName="idx_value_set_type_system_active">
+            <column name="type"/>
+            <column name="system"/>
+            <column name="active"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="value_set" baseColumnNames="plugin_id"
+                                 constraintName="fk_value_set_plugin_id"
+                                 referencedTableName="plugin"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="20220205001723-01" author="mattae">
+        <sql>
+            create unique index idx_value_set_unique on value_set (code, type, system, ( lang is null)) where lang is null;
+        </sql>
+
+        <loadData encoding="UTF-8"
+                  file="installers/core/value_set.csv"
+                  separator=";"
+                  tableName="value_set"/>
+    </changeSet>
+
+    <changeSet id="20220205161025-01" author="mattae">
+        <createTable tableName="translation">
+            <column name="id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="plugin_id" type="UUID"/>
+            <column name="lang" type="varchar(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="_order" type="int" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data" type="jsonb">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="translation" indexName="idx_translation_lang">
+            <column name="lang"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="translation" baseColumnNames="plugin_id"
+                                 constraintName="fk_translation_plugin_id" referencedTableName="plugin"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="20220309111625-01" author="mattae">
+        <createTable tableName="configuration">
+            <column name="id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="category" type="varchar(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data" type="jsonb">
+                <constraints nullable="false"/>
+            </column>
+            <column name="_order" type="int" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="plugin_id" type="UUID"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="configuration" baseColumnNames="plugin_id"
+                                 constraintName="fk_configuration_plugin_id"
+                                 referencedTableName="plugin"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

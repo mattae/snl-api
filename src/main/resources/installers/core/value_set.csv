@@ -1,0 +1,12 @@
+code;display;system;type;lang
+male;Male;SYSTEM;SEX_TYPE;en
+female;Female;SYSTEM;SEX_TYPE;en
+other;Other;SYSTEM;SEX_TYPE;en
+unknown;Unknown;SYSTEM;SEX_TYPE;en
+work;Work;SYSTEM;ADDRESS_TYPE;en
+home;Home;SYSTEM;ADDRESS_TYPE;en
+temp;Temporary;SYSTEM;ADDRESS_TYPE;en
+organisation;Organisation;SYSTEM;ORGANISATION_TYPE;en
+organisation_unit;Organisation Unit;SYSTEM;ORGANISATION_TYPE;en
+organisation_id;Org ID;SYSTEM;IDENTIFIER_TYPES;en
+system;System;SYSTEM;IDENTIFIER_PROVIDERS;en
