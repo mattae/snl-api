@@ -32,9 +32,9 @@ public class Plugin implements Serializable, Persistable<UUID> {
 
     private String logo;
 
-    private Boolean started;
+    private Boolean started = false;
 
-    private Boolean enabled;
+    private Boolean enabled = true;
 
     @Basic(fetch = FetchType.LAZY)
     @JsonIgnore
