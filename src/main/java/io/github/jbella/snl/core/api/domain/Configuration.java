@@ -5,15 +5,14 @@ import com.blazebit.persistence.view.IdMapping;
 import com.blazebit.persistence.view.MappingSingular;
 import com.blazebit.persistence.view.UpdatableEntityView;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
