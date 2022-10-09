@@ -92,8 +92,9 @@
             <column name="enabled" type="boolean" defaultValue="false">
                 <constraints nullable="false"/>
             </column>
-            <column name="logo" type="text"/>
-            <column name="data" type="bytea"/>
+            <column name="data" type="bytea">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 

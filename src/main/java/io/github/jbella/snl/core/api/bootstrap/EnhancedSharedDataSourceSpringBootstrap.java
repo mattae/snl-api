@@ -3,7 +3,7 @@ package io.github.jbella.snl.core.api.bootstrap;
 import io.github.jbella.snl.core.api.services.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.laxture.sbp.SpringBootPlugin;
-import org.laxture.sbp.spring.boot.SharedDataSourceSpringBootstrap;
+import org.laxture.sbp.spring.boot.SpringBootstrap;
 import org.pf4j.PluginManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -12,7 +12,6 @@ import org.springframework.core.MethodIntrospector;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
-import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.security.access.intercept.aopalliance.MethodSecurityMetadataSourceAdvisor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,6 +23,7 @@ import org.springframework.web.servlet.function.support.RouterFunctionMapping;
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 import org.zalando.problem.spring.web.autoconfigure.security.ProblemSecurityBeanPostProcessor;
 
+import javax.sql.DataSource;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class EnhancedSharedDataSourceSpringBootstrap extends SharedDataSourceSpringBootstrap {
+public class EnhancedSharedDataSourceSpringBootstrap extends SpringBootstrap {
     private final SpringBootPlugin plugin;
 
     public EnhancedSharedDataSourceSpringBootstrap(SpringBootPlugin plugin, Class<?>... primarySources) {
@@ -42,6 +42,9 @@ public class EnhancedSharedDataSourceSpringBootstrap extends SharedDataSourceSpr
     @Override
     protected String[] getExcludeConfigurations() {
         return ArrayUtils.addAll(super.getExcludeConfigurations(),
+                "org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration",
+                "org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration",
+                "org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration",
                 "com.blazebit.persistence.spring.data.webmvc.impl.BlazePersistenceWebConfiguration",
                 "org.springframework.boot.autoconfigure.netty.NettyAutoConfiguration");
     }
@@ -50,9 +53,9 @@ public class EnhancedSharedDataSourceSpringBootstrap extends SharedDataSourceSpr
     public ConfigurableApplicationContext createApplicationContext() {
         AnnotationConfigApplicationContext applicationContext =
                 (AnnotationConfigApplicationContext) super.createApplicationContext();
+
         importBeanFromMainContext(applicationContext, RouterFunctionMapping.class);
         importBeanFromMainContext(applicationContext, HttpSecurity.class);
-        importBeanFromMainContext(applicationContext, JpaTransactionManager.class);
         importBeanFromMainContext(applicationContext, PluginManager.class);
         importBeanFromMainContext(applicationContext, AuthenticationManagerBuilder.class);
         importBeanFromMainContext(applicationContext, MethodSecurityMetadataSourceAdvisor.class);
@@ -63,9 +66,9 @@ public class EnhancedSharedDataSourceSpringBootstrap extends SharedDataSourceSpr
         importBeanFromMainContext(applicationContext, MailService.class);
         importBeanFromMainContext(applicationContext, IndividualService.class);
         importBeanFromMainContext(applicationContext, OrganisationService.class);
-        importBeanFromMainContext(applicationContext, PluginService.class);
         importBeanFromMainContext(applicationContext, TranslationService.class);
         importBeanFromMainContext(applicationContext, ValueSetService.class);
+        importBeanFromMainContext(applicationContext, DataSource.class);
         getGraphqlControllers(plugin.getMainApplicationContext())
                 .forEach(controller -> importBeanFromMainContext(applicationContext, controller.getClass()));
 
