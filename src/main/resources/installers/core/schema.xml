@@ -275,9 +275,6 @@
             <column name="code" type="varchar(256)">
                 <constraints nullable="false"/>
             </column>
-            <column name="type" type="varchar(64)">
-                <constraints nullable="false"/>
-            </column>
             <column name="display" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>
