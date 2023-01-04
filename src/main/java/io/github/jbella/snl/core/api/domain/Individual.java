@@ -11,9 +11,9 @@ import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -29,7 +29,7 @@ public class Individual {
     @GeneratedValue
     private UUID id;
 
-    @ManyToOne(optional = false, cascade = javax.persistence.CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, cascade = jakarta.persistence.CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Party party;
 
 

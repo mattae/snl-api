@@ -1,6 +1,8 @@
 package io.github.jbella.snl.core.api.bootstrap;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jbella.snl.core.api.services.*;
+import org.aopalliance.intercept.MethodInterceptor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.laxture.sbp.SpringBootPlugin;
 import org.laxture.sbp.spring.boot.SpringBootstrap;
@@ -12,7 +14,6 @@ import org.springframework.core.MethodIntrospector;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
-import org.springframework.security.access.intercept.aopalliance.MethodSecurityMetadataSourceAdvisor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.stereotype.Controller;
@@ -20,8 +21,6 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.function.support.RouterFunctionMapping;
-import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
-import org.zalando.problem.spring.web.autoconfigure.security.ProblemSecurityBeanPostProcessor;
 
 import javax.sql.DataSource;
 import java.lang.annotation.Annotation;
@@ -41,12 +40,13 @@ public class EnhancedSharedDataSourceSpringBootstrap extends SpringBootstrap {
 
     @Override
     protected String[] getExcludeConfigurations() {
-        return ArrayUtils.addAll(super.getExcludeConfigurations(),
+        var exclusions = ArrayUtils.addAll(super.getExcludeConfigurations(),
                 "org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration",
                 "org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration",
                 "org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration",
                 "com.blazebit.persistence.spring.data.webmvc.impl.BlazePersistenceWebConfiguration",
                 "org.springframework.boot.autoconfigure.netty.NettyAutoConfiguration");
+        return ArrayUtils.removeAllOccurrences(exclusions, "org.laxture.sbp.spring.boot.SbpAutoConfiguration");
     }
 
     @Override
@@ -58,10 +58,7 @@ public class EnhancedSharedDataSourceSpringBootstrap extends SpringBootstrap {
         importBeanFromMainContext(applicationContext, HttpSecurity.class);
         importBeanFromMainContext(applicationContext, PluginManager.class);
         importBeanFromMainContext(applicationContext, AuthenticationManagerBuilder.class);
-        importBeanFromMainContext(applicationContext, MethodSecurityMetadataSourceAdvisor.class);
-        importBeanFromMainContext(applicationContext, SecurityProblemSupport.class);
-        importBeanFromMainContext(applicationContext, ProblemSecurityBeanPostProcessor.class);
-        importBeanFromMainContext(applicationContext, "problemSecurityAdvice");
+        importBeanFromMainContext(applicationContext, MethodInterceptor.class);
         importBeanFromMainContext(applicationContext, ConfigurationService.class);
         importBeanFromMainContext(applicationContext, MailService.class);
         importBeanFromMainContext(applicationContext, IndividualService.class);
@@ -69,6 +66,7 @@ public class EnhancedSharedDataSourceSpringBootstrap extends SpringBootstrap {
         importBeanFromMainContext(applicationContext, TranslationService.class);
         importBeanFromMainContext(applicationContext, ValueSetService.class);
         importBeanFromMainContext(applicationContext, DataSource.class);
+        importBeanFromMainContext(applicationContext, ObjectMapper.class);
         getGraphqlControllers(plugin.getMainApplicationContext())
                 .forEach(controller -> importBeanFromMainContext(applicationContext, controller.getClass()));
 

@@ -3,24 +3,18 @@ package io.github.jbella.snl.core.api.domain;
 import com.blazebit.persistence.view.PrePersist;
 import com.blazebit.persistence.view.PreRemove;
 import com.blazebit.persistence.view.*;
-import com.vladmihalcea.hibernate.type.array.IntArrayType;
-import com.vladmihalcea.hibernate.type.array.StringArrayType;
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import com.vladmihalcea.hibernate.type.json.JsonNodeBinaryType;
-import com.vladmihalcea.hibernate.type.json.JsonNodeStringType;
-import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import io.github.jbella.snl.core.api.config.AuditEntityListener;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.ResultCheckStyle;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
-import javax.persistence.Entity;
-import javax.persistence.PreUpdate;
-import javax.persistence.*;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -32,14 +26,6 @@ import java.util.UUID;
 @Table(name = "party_addresses")
 @SQLDelete(sql = "update party_addresses set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
 @EntityListeners(AuditEntityListener.class)
-@TypeDefs({
-        @TypeDef(name = "string-array", typeClass = StringArrayType.class),
-        @TypeDef(name = "int-array", typeClass = IntArrayType.class),
-        @TypeDef(name = "json", typeClass = JsonStringType.class),
-        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class),
-        @TypeDef(name = "jsonb-node", typeClass = JsonNodeBinaryType.class),
-        @TypeDef(name = "json-node", typeClass = JsonNodeStringType.class),
-})
 public class Address {
     @Id
     @GeneratedValue

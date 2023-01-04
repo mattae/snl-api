@@ -1,12 +1,11 @@
 package io.github.jbella.snl.core.api.domain;
 
 import com.blazebit.persistence.view.*;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -43,7 +42,7 @@ public class ValueSet {
 
         String getSystem();
 
-        void setSystem(String provider);
+        void setSystem(String system);
 
         String getCode();
 
