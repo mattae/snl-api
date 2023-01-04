@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.2</version>
+        <version>3.0.0</version>
         <relativePath/>
     </parent>
 
@@ -22,7 +22,7 @@
         <dependency>
             <groupId>org.pf4j</groupId>
             <artifactId>pf4j</artifactId>
-            <version>3.7.0</version>
+            <version>3.8.0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -31,8 +31,8 @@
         </dependency>
         <dependency>
             <groupId>com.blazebit</groupId>
-            <artifactId>blaze-persistence-entity-view-api</artifactId>
-            <version>1.6.7</version>
+            <artifactId>blaze-persistence-entity-view-api-jakarta</artifactId>
+            <version>1.6.8</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -73,27 +73,17 @@
         </dependency>
         <dependency>
             <groupId>com.vladmihalcea</groupId>
-            <artifactId>hibernate-types-55</artifactId>
-            <version>2.18.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.zalando</groupId>
-            <artifactId>problem-spring-web</artifactId>
-            <version>0.27.0</version>
+            <artifactId>hibernate-types-60</artifactId>
+            <version>2.21.1</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-hibernate5</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.zalando</groupId>
-            <artifactId>problem-spring-web-starter</artifactId>
-            <version>0.28.0-RC.0</version>
+            <artifactId>jackson-datatype-hibernate5-jakarta</artifactId>
         </dependency>
         <dependency>
             <groupId>com.blazebit</groupId>
             <artifactId>blaze-persistence-integration-spring-data-webmvc</artifactId>
-            <version>1.6.7</version>
+            <version>1.6.8</version>
         </dependency>
     </dependencies>
     <build>

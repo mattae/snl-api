@@ -5,5 +5,5 @@ import java.util.Map;
 public interface MailService {
     void sendEmail(String from, String to, String subject, String content, boolean isMultipart, boolean isHtml);
 
-    void sendEmailFromTemplate(String email, String templateName, Map<String, Object> variables);
+    void sendEmailFromTemplate(String email, String template, Map<String, Object> variables);
 }

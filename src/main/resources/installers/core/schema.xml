@@ -286,8 +286,7 @@
             <column name="plugin_id" type="JAVA.UTIL.UUID"/>
         </createTable>
 
-        <createIndex tableName="value_set" indexName="idx_value_set_type_system_active">
-            <column name="type"/>
+        <createIndex tableName="value_set" indexName="idx_value_set_system_active">
             <column name="system"/>
             <column name="active"/>
         </createIndex>
@@ -300,13 +299,8 @@
 
     <changeSet id="20220205001723-01" author="mattae">
         <sql>
-            create unique index idx_value_set_unique on value_set (code, type, system, ( lang is null)) where lang is null;
+            create unique index idx_value_set_unique on value_set (code, system, ( lang is null)) where lang is null;
         </sql>
-
-        <loadData encoding="UTF-8"
-                  file="installers/core/value_set.csv"
-                  separator=";"
-                  tableName="value_set"/>
     </changeSet>
 
     <changeSet id="20220205161025-01" author="mattae">

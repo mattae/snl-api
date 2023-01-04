@@ -1,11 +1,20 @@
 package io.github.jbella.snl.core.api.services.errors;
 
 
-import org.zalando.problem.AbstractThrowableProblem;
-import org.zalando.problem.Status;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.ErrorResponseException;
 
-public class BadRequestException extends AbstractThrowableProblem {
+import java.net.URI;
+
+import static io.github.jbella.snl.core.api.services.errors.ErrorConstants.PROBLEM_BASE_URL;
+
+public class BadRequestException extends ErrorResponseException {
     public BadRequestException(String message) {
-        super(ErrorConstants.DEFAULT_TYPE, "Bad request", Status.BAD_REQUEST, message);
+        super(HttpStatus.BAD_REQUEST, ProblemDetailWithCause.ProblemDetailWithCauseBuilder.instance()
+                .withStatus(HttpStatus.BAD_REQUEST.value())
+                .withType(URI.create(PROBLEM_BASE_URL + "/bad-request"))
+                .withTitle("Bad Request")
+                .withDetail(message)
+                .build(), null);
     }
 }
