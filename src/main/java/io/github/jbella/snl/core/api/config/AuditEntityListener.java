@@ -2,9 +2,9 @@ package io.github.jbella.snl.core.api.config;
 
 import io.github.jbella.snl.core.api.domain.AuditableEntity;
 
-import javax.persistence.PrePersist;
-import javax.persistence.PreRemove;
-import javax.persistence.PreUpdate;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreRemove;
+import jakarta.persistence.PreUpdate;
 import java.time.LocalDateTime;
 
 import static io.github.jbella.snl.core.api.config.AuditViewListenersConfiguration.getPrincipal;

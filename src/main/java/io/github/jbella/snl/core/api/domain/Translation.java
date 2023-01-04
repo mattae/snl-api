@@ -2,13 +2,14 @@ package io.github.jbella.snl.core.api.domain;
 
 import com.blazebit.persistence.view.EntityView;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -29,7 +30,8 @@ public class Translation {
     @Column(name = "_order")
     private Integer order = 1;
 
-    @Type(type = "jsonb")
+    @Type(JsonBinaryType.class)
+    @Column(columnDefinition = "jsonb")
     @NotNull
     private JsonNode data;
 

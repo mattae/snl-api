@@ -6,7 +6,7 @@ import com.blazebit.persistence.view.PreRemoveListener;
 import com.blazebit.persistence.view.PreUpdateListener;
 import io.github.jbella.snl.core.api.domain.AuditableView;
 import io.github.jbella.snl.core.api.extensions.security.CurrentPrincipalServiceExtension;
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import org.pf4j.PluginManager;
 
 import java.time.LocalDateTime;

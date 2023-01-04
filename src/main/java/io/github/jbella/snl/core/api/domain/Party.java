@@ -11,9 +11,9 @@ import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.CascadeType;
-import javax.persistence.PreUpdate;
-import javax.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
