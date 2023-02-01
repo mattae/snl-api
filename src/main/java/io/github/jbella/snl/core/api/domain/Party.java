@@ -4,6 +4,7 @@ import com.blazebit.persistence.view.PrePersist;
 import com.blazebit.persistence.view.PreRemove;
 import com.blazebit.persistence.view.*;
 import com.blazebit.persistence.view.filter.EqualFilter;
+import io.github.jbella.snl.core.api.id.UUIDV7Generator;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +28,7 @@ import java.util.UUID;
 @EqualsAndHashCode(of = "id")
 public class Party {
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = UUIDV7Generator.GENERATOR)
     private UUID id;
 
     private String type;

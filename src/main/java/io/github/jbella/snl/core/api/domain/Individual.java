@@ -4,6 +4,7 @@ import com.blazebit.persistence.view.PrePersist;
 import com.blazebit.persistence.view.PreRemove;
 import com.blazebit.persistence.view.PreUpdate;
 import com.blazebit.persistence.view.*;
+import io.github.jbella.snl.core.api.id.UUIDV7Generator;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +27,7 @@ import java.util.UUID;
 @Setter
 public class Individual {
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = UUIDV7Generator.GENERATOR)
     private UUID id;
 
     @ManyToOne(optional = false, cascade = jakarta.persistence.CascadeType.REMOVE, fetch = FetchType.LAZY)
