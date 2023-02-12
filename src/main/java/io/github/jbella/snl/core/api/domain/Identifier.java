@@ -4,6 +4,7 @@ import com.blazebit.persistence.view.CreatableEntityView;
 import com.blazebit.persistence.view.EntityView;
 import com.blazebit.persistence.view.IdMapping;
 import com.blazebit.persistence.view.UpdatableEntityView;
+import io.github.jbella.snl.core.api.id.UUIDV7Generator;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -25,7 +26,7 @@ import java.util.UUID;
 @SQLDelete(sql = "update party_identifiers set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
 public class Identifier {
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = UUIDV7Generator.GENERATOR)
     @EqualsAndHashCode.Include
     UUID id;
 

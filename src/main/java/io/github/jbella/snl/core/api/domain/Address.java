@@ -4,6 +4,7 @@ import com.blazebit.persistence.view.PrePersist;
 import com.blazebit.persistence.view.PreRemove;
 import com.blazebit.persistence.view.*;
 import io.github.jbella.snl.core.api.config.AuditEntityListener;
+import io.github.jbella.snl.core.api.id.UUIDV7Generator;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -28,7 +30,7 @@ import java.util.UUID;
 @EntityListeners(AuditEntityListener.class)
 public class Address {
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = UUIDV7Generator.GENERATOR)
     @EqualsAndHashCode.Include
     UUID id;
 

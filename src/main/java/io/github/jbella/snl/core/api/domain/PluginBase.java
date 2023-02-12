@@ -1,15 +1,16 @@
 package io.github.jbella.snl.core.api.domain;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.domain.Persistable;
-
+import io.github.jbella.snl.core.api.id.UUIDV7Generator;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.domain.Persistable;
+
 import java.util.UUID;
 
 @Getter
@@ -18,7 +19,7 @@ import java.util.UUID;
 @EqualsAndHashCode(of = "name")
 public class PluginBase implements Persistable<UUID> {
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = UUIDV7Generator.GENERATOR)
     private UUID id;
 
     @NotNull
