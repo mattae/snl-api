@@ -4,6 +4,7 @@ import com.blazebit.persistence.view.PrePersist;
 import com.blazebit.persistence.view.PreRemove;
 import com.blazebit.persistence.view.*;
 import io.github.jbella.snl.core.api.config.AuditEntityListener;
+import io.github.jbella.snl.core.api.id.UUIDV7;
 import io.github.jbella.snl.core.api.id.UUIDV7Generator;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.*;
@@ -30,7 +31,7 @@ import java.util.UUID;
 @EntityListeners(AuditEntityListener.class)
 public class Address {
     @Id
-    @GeneratedValue(generator = UUIDV7Generator.GENERATOR)
+    @UUIDV7
     @EqualsAndHashCode.Include
     UUID id;
 

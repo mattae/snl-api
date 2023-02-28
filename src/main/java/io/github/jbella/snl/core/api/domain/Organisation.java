@@ -7,6 +7,7 @@ import com.blazebit.persistence.view.*;
 import com.blazebit.persistence.view.filter.ContainsIgnoreCaseFilter;
 import com.blazebit.persistence.view.filter.EqualFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.github.jbella.snl.core.api.id.UUIDV7;
 import io.github.jbella.snl.core.api.id.UUIDV7Generator;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,7 +32,7 @@ import java.util.UUID;
 @ToString(of = {"id", "name", "party"})
 public class Organisation {
     @Id
-    @GeneratedValue(generator = UUIDV7Generator.GENERATOR)
+    @UUIDV7
     private UUID id;
 
     @OneToOne(fetch = FetchType.LAZY)

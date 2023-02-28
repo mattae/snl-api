@@ -4,11 +4,16 @@ import com.github.f4b6a3.uuid.UuidCreator;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
+import org.hibernate.id.factory.spi.CustomIdGeneratorCreationContext;
 
 import java.io.Serializable;
+import java.lang.reflect.Member;
 
 public class UUIDV7Generator implements IdentifierGenerator {
-    public static final String GENERATOR = "UUIDV7Generator";
+
+    public UUIDV7Generator(UUIDV7 config, Member idMember, CustomIdGeneratorCreationContext creationContext) {
+
+    }
 
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
