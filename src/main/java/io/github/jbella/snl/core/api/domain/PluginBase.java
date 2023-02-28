@@ -1,5 +1,6 @@
 package io.github.jbella.snl.core.api.domain;
 
+import io.github.jbella.snl.core.api.id.UUIDV7;
 import io.github.jbella.snl.core.api.id.UUIDV7Generator;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @EqualsAndHashCode(of = "name")
 public class PluginBase implements Persistable<UUID> {
     @Id
-    @GeneratedValue(generator = UUIDV7Generator.GENERATOR)
+    @UUIDV7
     private UUID id;
 
     @NotNull
