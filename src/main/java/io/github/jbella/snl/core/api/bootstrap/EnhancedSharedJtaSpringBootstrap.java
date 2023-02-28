@@ -2,6 +2,7 @@ package io.github.jbella.snl.core.api.bootstrap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jbella.snl.core.api.services.*;
+import io.github.jbella.snl.core.api.services.errors.ExceptionTranslator;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.laxture.sbp.SpringBootPlugin;
@@ -52,6 +53,7 @@ public class EnhancedSharedJtaSpringBootstrap extends SpringBootstrap {
         importBeanFromMainContext(applicationContext, ObjectMapper.class);
         importBeanFromMainContext(applicationContext, "xaDataSourceWrapper");
         importBeanFromMainContext(applicationContext, "transactionManager");
+        importBeanFromMainContext(applicationContext, ExceptionTranslator.class);
         getGraphqlControllers(plugin.getMainApplicationContext())
                 .forEach(controller -> importBeanFromMainContext(applicationContext, controller.getClass()));
 

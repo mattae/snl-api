@@ -13,6 +13,7 @@ public class RecordNotFoundException extends ErrorResponseException {
                 .withStatus(HttpStatus.NOT_FOUND.value())
                 .withType(URI.create(PROBLEM_BASE_URL + "/not-found"))
                 .withTitle("NOT_FOUND")
+                .withDetail(message)
                 .build(), null);
     }
 }
