@@ -14,8 +14,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.web.servlet.function.support.RouterFunctionMapping;
 
-import javax.sql.DataSource;
-
 import static io.github.jbella.snl.core.api.bootstrap.EnhancedSharedDataSourceSpringBootstrap.getGraphqlControllers;
 
 public class EnhancedSharedJtaSpringBootstrap extends SpringBootstrap {
@@ -46,7 +44,7 @@ public class EnhancedSharedJtaSpringBootstrap extends SpringBootstrap {
         importBeanFromMainContext(applicationContext, MethodInterceptor.class);
         importBeanFromMainContext(applicationContext, ConfigurationService.class);
         importBeanFromMainContext(applicationContext, MailService.class);
-        importBeanFromMainContext(applicationContext, IndividualService.class);
+        importBeanFromMainContext(applicationContext, PersonService.class);
         importBeanFromMainContext(applicationContext, OrganisationService.class);
         importBeanFromMainContext(applicationContext, TranslationService.class);
         importBeanFromMainContext(applicationContext, ValueSetService.class);
