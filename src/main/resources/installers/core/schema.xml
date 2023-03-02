@@ -249,7 +249,7 @@
     </changeSet>
 
     <changeSet author="mattae" id="20210120232001-08">
-        <createTable tableName="individual">
+        <createTable tableName="person">
             <column name="id" type="UUID">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -286,11 +286,11 @@
             <column name="last_modified_date" type="timestamp" defaultValueComputed="current_timestamp"/>
         </createTable>
 
-        <addForeignKeyConstraint baseTableName="individual" baseColumnNames="party_id"
-                                 constraintName="fk_individual_party_id" referencedTableName="party"
+        <addForeignKeyConstraint baseTableName="person" baseColumnNames="party_id"
+                                 constraintName="fk_person_party_id" referencedTableName="party"
                                  referencedColumnNames="id"/>
-        <addForeignKeyConstraint baseTableName="individual" baseColumnNames="organisation_id"
-                                 constraintName="fk_individual_organisation_id" referencedTableName="organisation"
+        <addForeignKeyConstraint baseTableName="person" baseColumnNames="organisation_id"
+                                 constraintName="fk_person_organisation_id" referencedTableName="organisation"
                                  referencedColumnNames="id"/>
     </changeSet>
 

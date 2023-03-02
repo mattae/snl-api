@@ -62,7 +62,7 @@ public class EnhancedSharedDataSourceSpringBootstrap extends SpringBootstrap {
         importBeanFromMainContext(applicationContext, MethodInterceptor.class);
         importBeanFromMainContext(applicationContext, ConfigurationService.class);
         importBeanFromMainContext(applicationContext, MailService.class);
-        importBeanFromMainContext(applicationContext, IndividualService.class);
+        importBeanFromMainContext(applicationContext, PersonService.class);
         importBeanFromMainContext(applicationContext, OrganisationService.class);
         importBeanFromMainContext(applicationContext, TranslationService.class);
         importBeanFromMainContext(applicationContext, ValueSetService.class);

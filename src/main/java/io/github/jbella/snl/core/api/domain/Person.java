@@ -22,11 +22,11 @@ import java.util.UUID;
 
 @Entity
 @EqualsAndHashCode(of = "id")
-@SQLDelete(sql = "update individual set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
+@SQLDelete(sql = "update person set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
 @Where(clause = "archived = false")
 @Getter
 @Setter
-public class Individual {
+public class Person {
     @Id
     @UUIDV7
     private UUID id;
@@ -72,13 +72,13 @@ public class Individual {
     }
 
 
-    @EntityView(Individual.class)
+    @EntityView(Person.class)
     public interface IdView {
         @IdMapping
         UUID getId();
     }
 
-    @EntityView(Individual.class)
+    @EntityView(Person.class)
     public interface View extends IdView {
 
         String getSex();
@@ -101,7 +101,7 @@ public class Individual {
     }
 
     @CreatableEntityView
-    @EntityView(Individual.class)
+    @EntityView(Person.class)
     public interface CreateView extends View {
 
         void setSex(String sex);
@@ -159,7 +159,7 @@ public class Individual {
     }
 
     @UpdatableEntityView
-    @EntityView(Individual.class)
+    @EntityView(Person.class)
     public interface UpdateView extends CreateView {
         @IdMapping
         @NotNull
