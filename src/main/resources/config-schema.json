@@ -214,6 +214,14 @@
                     "items": {
                         "type": "string"
                     }
+                },
+                "subs": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/menu"
+                    }
                 }
             },
             "additionalProperties": false
