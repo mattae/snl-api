@@ -50,6 +50,10 @@
         "configurationsPath": {
             "type": "string",
             "minLength": 7
+        },
+        "valueSetsPath": {
+            "type": "string",
+            "minLength": 7
         }
     },
     "definitions": {
