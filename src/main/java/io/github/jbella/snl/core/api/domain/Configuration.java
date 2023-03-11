@@ -58,6 +58,10 @@ public class Configuration {
 
         void setOrder(Integer order);
 
+        ValueSet.PluginView getPlugin();
+
+        void setPlugin(ValueSet.PluginView plugin);
+
         @NotEmpty
         @MappingSingular
         Set<Data> getData();

@@ -300,24 +300,19 @@
             <column name="id" type="serial" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="code" type="varchar(256)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="display" type="varchar(512)">
+            <column name="values" type="jsonb">
                 <constraints nullable="false"/>
             </column>
             <column name="system" type="varchar(512)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="varchar(64)"/>
+            <column name="lang" type="varchar(2)"/>
+            <column name="_order" type="int" defaultValueComputed="1">
                 <constraints nullable="false"/>
             </column>
-            <column name="lang" type="varchar(2)"/>
-            <column name="active" type="boolean" defaultValue="true"/>
             <column name="plugin_id" type="JAVA.UTIL.UUID"/>
         </createTable>
-
-        <createIndex tableName="value_set" indexName="idx_value_set_system_active">
-            <column name="system"/>
-            <column name="active"/>
-        </createIndex>
 
         <addForeignKeyConstraint baseTableName="value_set" baseColumnNames="plugin_id"
                                  constraintName="fk_value_set_plugin_id"
@@ -326,9 +321,7 @@
     </changeSet>
 
     <changeSet id="20220205001723-01" author="mattae">
-        <sql>
-            create unique index idx_value_set_unique on value_set (code, system, ( lang is null)) where lang is null;
-        </sql>
+        <addUniqueConstraint tableName="value_set" columnNames="system, _order"/>
     </changeSet>
 
     <changeSet id="20220205161025-01" author="mattae">
