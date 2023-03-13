@@ -1,7 +1,7 @@
 package io.github.jbella.snl.core.api.domain;
 
 import com.blazebit.persistence.view.*;
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

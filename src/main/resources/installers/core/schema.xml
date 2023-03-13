@@ -304,7 +304,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="system" type="varchar(512)">
-                <constraints nullable="false" unique="true"/>
+                <constraints nullable="false"/>
             </column>
             <column name="description" type="varchar(64)"/>
             <column name="lang" type="varchar(2)"/>

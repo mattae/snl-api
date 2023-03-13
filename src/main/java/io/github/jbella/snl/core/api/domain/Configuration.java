@@ -5,7 +5,7 @@ import com.blazebit.persistence.view.IdMapping;
 import com.blazebit.persistence.view.MappingSingular;
 import com.blazebit.persistence.view.UpdatableEntityView;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
