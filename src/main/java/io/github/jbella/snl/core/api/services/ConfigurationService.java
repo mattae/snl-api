@@ -16,4 +16,6 @@ public interface ConfigurationService {
     Optional<Double> getValueAsNumericForKey(String category, String key);
 
     Optional<LocalDate> getValueAsDateForKey(String category, String key);
+
+    void deleteById(Long id);
 }

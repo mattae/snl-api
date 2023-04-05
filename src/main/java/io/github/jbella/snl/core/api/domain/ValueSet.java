@@ -65,8 +65,6 @@ public class ValueSet {
 
         PluginView getPlugin();
 
-        void setPlugin(PluginView plugin);
-
         @MappingSingular
         @NotEmpty
         Set<Value> getValues();
@@ -84,7 +82,7 @@ public class ValueSet {
     }
 
     @EntityView(ValueSet.class)
-    public record ValueView(@MappingSingular Set<Value> values) {
+    public record ValueView(@MappingSingular Set<Value> values, Integer order) {
     }
 
     @EntityView(ValueSet.class)
@@ -118,5 +116,13 @@ public class ValueSet {
     public interface PluginView {
         @IdMapping
         UUID getId();
+    }
+
+    @EntityView(ValueSet.class)
+    public interface ValueSetPluginView {
+        @IdMapping
+        Long getId();
+
+        PluginView getPlugin();
     }
 }

@@ -1,5 +1,6 @@
 package io.github.jbella.snl.core.api.domain;
 
+import com.blazebit.persistence.view.PrePersist;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
@@ -29,4 +30,9 @@ public interface AuditableView {
     Boolean getArchived();
 
     void setArchived(Boolean archived);
+
+    @PrePersist
+    default void prePersist() {
+        setArchived(false);
+    }
 }

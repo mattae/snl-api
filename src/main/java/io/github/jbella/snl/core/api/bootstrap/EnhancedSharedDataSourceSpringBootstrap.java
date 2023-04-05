@@ -8,6 +8,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.laxture.sbp.SpringBootPlugin;
 import org.laxture.sbp.spring.boot.SpringBootstrap;
 import org.pf4j.PluginManager;
+import org.springdoc.webmvc.api.OpenApiWebMvcResource;
+import org.springdoc.webmvc.ui.SwaggerConfigResource;
+import org.springdoc.webmvc.ui.SwaggerWelcomeWebMvc;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -69,6 +72,9 @@ public class EnhancedSharedDataSourceSpringBootstrap extends SpringBootstrap {
         importBeanFromMainContext(applicationContext, DataSource.class);
         importBeanFromMainContext(applicationContext, ObjectMapper.class);
         importBeanFromMainContext(applicationContext, ExceptionTranslator.class);
+        importBeanFromMainContext(applicationContext, OpenApiWebMvcResource.class);
+        importBeanFromMainContext(applicationContext, SwaggerWelcomeWebMvc.class);
+        importBeanFromMainContext(applicationContext, SwaggerConfigResource.class);
         getGraphqlControllers(plugin.getMainApplicationContext())
                 .forEach(controller -> importBeanFromMainContext(applicationContext, controller.getClass()));
 

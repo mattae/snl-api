@@ -15,6 +15,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -58,9 +59,7 @@ public class Configuration {
 
         void setOrder(Integer order);
 
-        ValueSet.PluginView getPlugin();
-
-        void setPlugin(ValueSet.PluginView plugin);
+        PluginView getPlugin();
 
         @NotEmpty
         @MappingSingular
@@ -86,5 +85,19 @@ public class Configuration {
         public enum Type {
             string, numeric, bool, date
         }
+    }
+
+    @EntityView(Plugin.class)
+    public interface PluginView {
+        @IdMapping
+        UUID getId();
+    }
+
+    @EntityView(ValueSet.class)
+    public interface ConfigurationPluginView {
+        @IdMapping
+        Long getId();
+
+        PluginView getPlugin();
     }
 }

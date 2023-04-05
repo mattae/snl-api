@@ -2,12 +2,14 @@ package io.github.jbella.snl.core.api.bootstrap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jbella.snl.core.api.services.*;
-import io.github.jbella.snl.core.api.services.errors.ExceptionTranslator;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.laxture.sbp.SpringBootPlugin;
 import org.laxture.sbp.spring.boot.SpringBootstrap;
 import org.pf4j.PluginManager;
+import org.springdoc.webmvc.api.OpenApiWebMvcResource;
+import org.springdoc.webmvc.ui.SwaggerConfigResource;
+import org.springdoc.webmvc.ui.SwaggerWelcomeWebMvc;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -51,7 +53,9 @@ public class EnhancedSharedJtaSpringBootstrap extends SpringBootstrap {
         importBeanFromMainContext(applicationContext, ObjectMapper.class);
         importBeanFromMainContext(applicationContext, "xaDataSourceWrapper");
         importBeanFromMainContext(applicationContext, "transactionManager");
-        importBeanFromMainContext(applicationContext, ExceptionTranslator.class);
+        importBeanFromMainContext(applicationContext, OpenApiWebMvcResource.class);
+        importBeanFromMainContext(applicationContext, SwaggerWelcomeWebMvc.class);
+        importBeanFromMainContext(applicationContext, SwaggerConfigResource.class);
         getGraphqlControllers(plugin.getMainApplicationContext())
                 .forEach(controller -> importBeanFromMainContext(applicationContext, controller.getClass()));
 
