@@ -1,9 +1,6 @@
 package io.github.jbella.snl.core.api.domain;
 
-import com.blazebit.persistence.view.EntityView;
-import com.blazebit.persistence.view.IdMapping;
-import com.blazebit.persistence.view.MappingSingular;
-import com.blazebit.persistence.view.UpdatableEntityView;
+import com.blazebit.persistence.view.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
@@ -42,13 +39,10 @@ public class Configuration {
     private Plugin plugin;
 
     @EntityView(Configuration.class)
-    @UpdatableEntityView
-    public interface View {
+    @CreatableEntityView
+    public interface CreateView {
         @IdMapping
-        @NotNull
         Long getId();
-
-        void setId(Long id);
 
         @NotNull
         String getCategory();
@@ -66,6 +60,16 @@ public class Configuration {
         Set<Data> getData();
 
         void setData(Set<Data> configurations);
+    }
+
+    @EntityView(Configuration.class)
+    @UpdatableEntityView
+    public interface UpdateView extends CreateView {
+        @IdMapping
+        @NotNull
+        Long getId();
+
+        void setId(Long id);
     }
 
     @Getter

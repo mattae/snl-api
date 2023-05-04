@@ -65,6 +65,8 @@ public class Organisation {
     public interface IdView {
         @IdMapping
         UUID getId();
+
+        String getName();
     }
 
     @EntityView(Organisation.class)
@@ -160,8 +162,6 @@ public class Organisation {
     public interface ShortView extends IdView {
 
         void setId(UUID id);
-
-        String getName();
 
         void setName(String name);
 

@@ -43,7 +43,7 @@ public class ValueSet {
 
     @EntityView(ValueSet.class)
     @CreatableEntityView
-    public interface BaseView {
+    public interface CreateView {
         @IdMapping
         Long getId();
 
@@ -74,7 +74,10 @@ public class ValueSet {
 
     @UpdatableEntityView
     @EntityView(ValueSet.class)
-    public interface UpdateView extends BaseView {
+    public interface UpdateView extends CreateView {
+        @IdMapping
+        @NotNull
+        Long getId();
         void setId(Long id);
     }
 
