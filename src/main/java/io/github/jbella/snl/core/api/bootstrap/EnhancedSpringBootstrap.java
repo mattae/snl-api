@@ -64,6 +64,7 @@ public class EnhancedSpringBootstrap extends SpringBootstrap {
         importBeanFromMainContext(applicationContext, SwaggerWelcomeWebMvc.class);
         importBeanFromMainContext(applicationContext, SwaggerConfigResource.class);
         importBeanFromMainContext(applicationContext, ExtensionService.class);
+        importBeanFromMainContext(applicationContext, PreferenceService.class);
         getGraphqlControllers(plugin.getMainApplicationContext())
                 .forEach(controller -> importBeanFromMainContext(applicationContext, controller.getClass()));
 

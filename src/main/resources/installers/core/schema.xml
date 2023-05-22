@@ -9,7 +9,8 @@
     <changeSet author="mattae" id="20210120232001-00">
         <sql>
             <![CDATA[
-            create or replace function uuid_v7() returns uuid
+            create
+            or replace function uuid_v7() returns uuid
             as '
                 declare
                     unix_ts_ms bytea;
@@ -375,7 +376,8 @@
     <changeSet author="mattae" id="20220315202001-01">
         <sql>
             <![CDATA[
-            CREATE OR REPLACE FUNCTION jsonb_recursive_merge(A jsonb, B jsonb) RETURNS jsonb LANGUAGE SQL AS '
+            CREATE
+            OR REPLACE FUNCTION jsonb_recursive_merge(A jsonb, B jsonb) RETURNS jsonb LANGUAGE SQL AS '
                 SELECT
                     jsonb_object_agg(
                         coalesce(ka, kb),
@@ -396,7 +398,8 @@
     <changeSet author="mattae" id="20220315202001-02">
         <sql>
             <![CDATA[
-            create or replace function configuration_value(_category varchar, _key varchar) returns
+            create
+            or replace function configuration_value(_category varchar, _key varchar) returns
 	            table (type text, value text) language plpgsql as '
 	            declare
                     rec jsonb;
@@ -428,7 +431,8 @@
     <changeSet author="mattae" id="20220315202001-03">
         <sql>
             <![CDATA[
-            create or replace function value_set_display(_system varchar, code varchar, _lang varchar default null) returns
+            create
+            or replace function value_set_display(_system varchar, code varchar, _lang varchar default null) returns
 	            varchar language plpgsql as '
 	            declare
                     rec jsonb;
@@ -461,7 +465,8 @@
     <changeSet author="mattae" id="20220315202001-04">
         <sql>
             <![CDATA[
-            create or replace function value_set_display_by_category_key(category varchar, key varchar, code varchar,
+            create
+            or replace function value_set_display_by_category_key(category varchar, key varchar, code varchar,
                 lang varchar default null) returns varchar language plpgsql as '
 	            declare
                     _system varchar;
@@ -475,6 +480,29 @@
                 end;
             '
             ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet author="mattae" id="20230521102001-01">
+        <createTable tableName="preference">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="category" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="key" type="varchar(512)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="value" type="text">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint tableName="preference" columnNames="category,key"/>
+
+        <sql>
+            CREATE UNIQUE INDEX idx_unique_preference_category ON preference (category) WHERE key IS NULL;
         </sql>
     </changeSet>
 
