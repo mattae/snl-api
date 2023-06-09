@@ -506,4 +506,14 @@
         </sql>
     </changeSet>
 
+    <changeSet author="mattae" id="20230608182001-01">
+        <dropColumn tableName="plugin" columnName="data"/>
+
+        <addColumn tableName="plugin">
+            <column name="hash" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
