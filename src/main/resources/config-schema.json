@@ -1,0 +1,299 @@
+{
+    "$id": "#",
+    "type": "object",
+    "title": "The Schema SNL Plugin configuration",
+    "properties": {
+        "description": {
+            "type": "string",
+            "minLength": 4
+        },
+        "name": {
+            "type": "string",
+            "minLength": 3
+        },
+        "menus": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "$ref": "#/definitions/menu"
+            }
+        },
+        "webRemotes": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "$ref": "#/definitions/webRemote"
+            },
+            "minItems": 1
+        },
+        "permissions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "$ref": "#/definitions/permission"
+            }
+        },
+        "roles": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "$ref": "#/definitions/role"
+            }
+        },
+        "translations": {
+            "type": "array",
+            "minimum": 1,
+            "items": {
+                "type": "object",
+                "$ref": "#/definitions/translations"
+            }
+        },
+        "configurationsPath": {
+            "type": "string",
+            "minLength": 7
+        },
+        "valueSetsPath": {
+            "type": "string",
+            "minLength": 7
+        }
+    },
+    "definitions": {
+        "webRemote": {
+            "required": [
+                "remoteEntry",
+                "remoteName"
+            ],
+            "properties": {
+                "remoteName": {
+                    "type": "string"
+                },
+                "remoteEntry": {
+                    "type": "string"
+                },
+                "modules": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/module"
+                    }
+                },
+                "components": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/component"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "component": {
+            "required": [
+                "exposedName"
+            ],
+            "properties": {
+                "exposedName": {
+                    "type": "string"
+                },
+                "routePath": {
+                    "type": "string",
+                    "minLength": 2
+                },
+                "position": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
+                },
+                "elementName": {
+                    "type": "string"
+                },
+                "componentName": {
+                    "type": "string"
+                },
+                "breadcrumb": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "title": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "authorities": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "oneOf": [
+                {
+                    "required": [
+                        "elementName"
+                    ]
+                },
+                {
+                    "required": [
+                        "componentName"
+                    ]
+                }
+            ],
+            "additionalProperties": false
+        },
+        "module": {
+            "required": [
+                "name",
+                "routePath",
+                "ngModuleName"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "routePath": {
+                    "type": "string",
+                    "minLength": 2
+                },
+                "position": {
+                    "type": "integer"
+                },
+                "ngModuleName": {
+                    "type": "string"
+                },
+                "authorities": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "breadcrumb": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "title": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "additionalProperties": false
+        },
+        "menu": {
+            "required": [
+                "name",
+                "type"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "route": {
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "link",
+                        "dropDown",
+                        "icon",
+                        "separator",
+                        "extLink"
+                    ]
+                },
+                "position": {
+                    "type": "integer"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "tooltip": {
+                    "type": "string"
+                },
+                "authorities": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "subs": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/menu"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "permission": {
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "maxLength": 50
+                },
+                "description": {
+                    "type": "string",
+                    "maxLength": 128
+                }
+            },
+            "additionalProperties": false
+        },
+        "role": {
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "minLength": 2
+                },
+                "authority": {
+                    "type": "string",
+                    "minLength": 7
+                },
+                "description": {
+                    "type": "string",
+                    "maxLength": 128
+                },
+                "permissions": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/permission"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "translations": {
+            "required": [
+                "lang",
+                "path"
+            ],
+            "properties": {
+                "lang": {
+                    "type": "string",
+                    "minLength": 2
+                },
+                "path": {
+                    "type": "string",
+                    "minLength": 7
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "additionalProperties": false
+}

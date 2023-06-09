@@ -153,6 +153,7 @@ public class Person {
 
         @PrePersist
         default void prePersist() {
+            getParty().setType("PERSON");
             setArchived(false);
             setLastModifiedDate(LocalDateTime.now());
         }

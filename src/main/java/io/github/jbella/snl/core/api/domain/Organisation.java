@@ -6,9 +6,10 @@ import com.blazebit.persistence.view.PreRemove;
 import com.blazebit.persistence.view.*;
 import com.blazebit.persistence.view.filter.ContainsIgnoreCaseFilter;
 import com.blazebit.persistence.view.filter.EqualFilter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.jbella.snl.core.api.id.UUIDV7;
-import io.github.jbella.snl.core.api.id.UUIDV7Generator;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -16,9 +17,6 @@ import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -49,9 +47,8 @@ public class Organisation {
     @ManyToOne
     private Organisation parent;
 
-    @OneToMany(mappedBy = "parent")
-    @JsonIgnore
-    private Set<Organisation> subOrganisations;
+    @NotNull
+    private String type;
 
     private Boolean archived = false;
 
@@ -68,14 +65,12 @@ public class Organisation {
     public interface IdView {
         @IdMapping
         UUID getId();
+
+        String getName();
     }
 
     @EntityView(Organisation.class)
     public interface View extends IdView {
-        @AttributeFilter(ContainsIgnoreCaseFilter.class)
-        @NotNull
-        String getName();
-
         @AttributeFilter(ContainsIgnoreCaseFilter.class)
         String getEmail();
 
@@ -84,8 +79,8 @@ public class Organisation {
 
         LocalDate getEstablishmentDate();
 
-        @Mapping("party.type")
-        String getType();
+        @Mapping("party.identifiers")
+        Set<Identifier.View> getIdentifiers();
 
         @AttributeFilter(EqualFilter.class)
         Boolean getActive();
@@ -94,6 +89,8 @@ public class Organisation {
     @EntityView(Organisation.class)
     @CreatableEntityView
     public interface CreateView extends View {
+        @NotNull
+        String getName();
 
         void setName(String name);
 
@@ -103,9 +100,14 @@ public class Organisation {
 
         void setEstablishmentDate(LocalDate date);
 
-        View getParent();
+        IdView getParent();
 
-        void setParent(View parent);
+        void setParent(IdView parent);
+
+        @NotNull
+        String getType();
+
+        void setType(String type);
 
         @AllowUpdatableEntityViews
         @UpdatableMapping(orphanRemoval = true, cascade = CascadeType.PERSIST)
@@ -138,7 +140,7 @@ public class Organisation {
 
         @PrePersist
         default void prePersist() {
-            getParty().setType("organisation");
+            getParty().setType("ORGANISATION");
             setArchived(false);
             setActive(true);
             setLastModifiedDate(LocalDateTime.now());
@@ -153,5 +155,18 @@ public class Organisation {
         UUID getId();
 
         void setId(UUID id);
+    }
+
+    @EntityView(Organisation.class)
+    @CreatableEntityView
+    public interface ShortView extends IdView {
+
+        void setId(UUID id);
+
+        void setName(String name);
+
+        String getType();
+
+        void setType(String type);
     }
 }

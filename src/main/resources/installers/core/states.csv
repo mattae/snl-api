@@ -1,39 +1,39 @@
 id;name;code;country_id
-1;Abia;AB;164
-37;Abuja;FCT;164
-2;Adamawa;AD;164
-3;Akwa Ibom;AK;164
-4;Anambra;AN;164
-5;Bauchi;BA;164
-6;Bayelsa;BY;164
-7;Benue;BE;164
-8;Borno;BO;164
-9;Cross River;CR;164
-10;Delta;DT;164
-11;Ebonyi;EB;164
-12;Edo;ED;164
-13;Ekiti;EK;164
-36;Enugu;EN;164
-14;Gombe;GO;164
-15;Imo;IM;164
-16;Jigawa;JG;164
-17;Kaduna;KD;164
-18;Kano;KN;164
-19;Katsina;KT;164
-20;Kebbi;KB;164
-21;Kogi;KG;164
-22;Kwara;KW;164
-23;Lagos;LA;164
-24;Nasarawa;NA;164
-25;Niger;NI;164
-26;Ogun;OG;164
-27;Ondo;OD;164
-28;Osun;OS;164
-29;Oyo;OY;164
-30;Plateau;PL;164
-31;Rivers;RV;164
-32;Sokoto;SO;164
-33;Taraba;TA;164
-34;Yobe;YO;164
+1;Abia;AB;162
+37;Federal Capital Territory;FCT;162
+2;Adamawa;AD;162
+3;Akwa Ibom;AK;162
+4;Anambra;AN;162
+5;Bauchi;BA;162
+6;Bayelsa;BY;162
+7;Benue;BE;162
+8;Borno;BO;162
+9;Cross River;CR;162
+10;Delta;DT;162
+11;Ebonyi;EB;162
+12;Edo;ED;162
+13;Ekiti;EK;162
+36;Enugu;EN;162
+14;Gombe;GO;162
+15;Imo;IM;162
+16;Jigawa;JG;162
+17;Kaduna;KD;162
+18;Kano;KN;162
+19;Katsina;KT;162
+20;Kebbi;KB;162
+21;Kogi;KG;162
+22;Kwara;KW;162
+23;Lagos;LA;162
+24;Nasarawa;NA;162
+25;Niger;NI;162
+26;Ogun;OG;162
+27;Ondo;OD;162
+28;Osun;OS;162
+29;Oyo;OY;162
+30;Plateau;PL;162
+31;Rivers;RV;162
+32;Sokoto;SO;162
+33;Taraba;TA;162
+34;Yobe;YO;162
 35;Zamfara;ZA;164
 

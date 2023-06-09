@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jbella.snl.core.api.services.*;
 import io.github.jbella.snl.core.api.services.errors.ExceptionTranslator;
 import org.aopalliance.intercept.MethodInterceptor;
-import org.apache.commons.lang3.ArrayUtils;
 import org.laxture.sbp.SpringBootPlugin;
 import org.laxture.sbp.spring.boot.SpringBootstrap;
 import org.pf4j.PluginManager;
+import org.springdoc.webmvc.api.OpenApiWebMvcResource;
+import org.springdoc.webmvc.ui.SwaggerConfigResource;
+import org.springdoc.webmvc.ui.SwaggerWelcomeWebMvc;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -31,23 +33,12 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class EnhancedSharedDataSourceSpringBootstrap extends SpringBootstrap {
+public class EnhancedSpringBootstrap extends SpringBootstrap {
     private final SpringBootPlugin plugin;
 
-    public EnhancedSharedDataSourceSpringBootstrap(SpringBootPlugin plugin, Class<?>... primarySources) {
+    public EnhancedSpringBootstrap(SpringBootPlugin plugin, Class<?>... primarySources) {
         super(plugin, primarySources);
         this.plugin = plugin;
-    }
-
-    @Override
-    protected String[] getExcludeConfigurations() {
-        var exclusions = ArrayUtils.addAll(super.getExcludeConfigurations(),
-                "org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration",
-                "org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration",
-                "org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration",
-                "com.blazebit.persistence.spring.data.webmvc.impl.BlazePersistenceWebConfiguration",
-                "org.springframework.boot.autoconfigure.netty.NettyAutoConfiguration");
-        return ArrayUtils.removeAllOccurrences(exclusions, "org.laxture.sbp.spring.boot.SbpAutoConfiguration");
     }
 
     @Override
@@ -69,6 +60,11 @@ public class EnhancedSharedDataSourceSpringBootstrap extends SpringBootstrap {
         importBeanFromMainContext(applicationContext, DataSource.class);
         importBeanFromMainContext(applicationContext, ObjectMapper.class);
         importBeanFromMainContext(applicationContext, ExceptionTranslator.class);
+        importBeanFromMainContext(applicationContext, OpenApiWebMvcResource.class);
+        importBeanFromMainContext(applicationContext, SwaggerWelcomeWebMvc.class);
+        importBeanFromMainContext(applicationContext, SwaggerConfigResource.class);
+        importBeanFromMainContext(applicationContext, ExtensionService.class);
+        importBeanFromMainContext(applicationContext, PreferenceService.class);
         getGraphqlControllers(plugin.getMainApplicationContext())
                 .forEach(controller -> importBeanFromMainContext(applicationContext, controller.getClass()));
 

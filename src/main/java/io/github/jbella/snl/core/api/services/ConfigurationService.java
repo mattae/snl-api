@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ConfigurationService {
-    List<Configuration.View> list(String category, String key);
+    List<Configuration.CreateView> list(String category, String key);
 
     Optional<String> getValueAsStringForKey(String category, String key);
 
@@ -16,4 +16,6 @@ public interface ConfigurationService {
     Optional<Double> getValueAsNumericForKey(String category, String key);
 
     Optional<LocalDate> getValueAsDateForKey(String category, String key);
+
+    void deleteById(Long id);
 }

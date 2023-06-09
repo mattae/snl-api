@@ -9,7 +9,8 @@
     <changeSet author="mattae" id="20210120232001-00">
         <sql>
             <![CDATA[
-            create or replace function uuid_v7() returns uuid
+            create
+            or replace function uuid_v7() returns uuid
             as '
                 declare
                     unix_ts_ms bytea;
@@ -195,7 +196,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="register" type="varchar(128)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="lifecycle_status" type="varchar(32)"/>
             <column name="from_date" type="timestamp"/>
@@ -226,6 +227,9 @@
             </column>
             <column name="email" type="varchar(64)"/>
             <column name="phone" type="varchar(32)"/>
+            <column name="type" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
             <column name="establishment_date" type="date"/>
             <column name="parent_id" type="UUID"/>
             <column name="party_id" type="UUID">
@@ -300,35 +304,24 @@
             <column name="id" type="serial" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="code" type="varchar(256)">
+            <column name="values" type="jsonb">
                 <constraints nullable="false"/>
             </column>
-            <column name="display" type="varchar(512)">
+            <column name="system" type="varchar(1024)">
                 <constraints nullable="false"/>
             </column>
-            <column name="system" type="varchar(512)">
-                <constraints nullable="false"/>
-            </column>
+            <column name="description" type="varchar(512)"/>
             <column name="lang" type="varchar(2)"/>
-            <column name="active" type="boolean" defaultValue="true"/>
+            <column name="_order" type="int" defaultValueComputed="1">
+                <constraints nullable="false"/>
+            </column>
             <column name="plugin_id" type="JAVA.UTIL.UUID"/>
         </createTable>
-
-        <createIndex tableName="value_set" indexName="idx_value_set_system_active">
-            <column name="system"/>
-            <column name="active"/>
-        </createIndex>
 
         <addForeignKeyConstraint baseTableName="value_set" baseColumnNames="plugin_id"
                                  constraintName="fk_value_set_plugin_id"
                                  referencedTableName="plugin"
                                  referencedColumnNames="id"/>
-    </changeSet>
-
-    <changeSet id="20220205001723-01" author="mattae">
-        <sql>
-            create unique index idx_value_set_unique on value_set (code, system, ( lang is null)) where lang is null;
-        </sql>
     </changeSet>
 
     <changeSet id="20220205161025-01" author="mattae">
@@ -362,7 +355,7 @@
             <column name="id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="category" type="varchar(128)">
+            <column name="category" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>
             <column name="data" type="jsonb">
@@ -379,4 +372,148 @@
                                  referencedTableName="plugin"
                                  referencedColumnNames="id"/>
     </changeSet>
+
+    <changeSet author="mattae" id="20220315202001-01">
+        <sql>
+            <![CDATA[
+            CREATE
+            OR REPLACE FUNCTION jsonb_recursive_merge(A jsonb, B jsonb) RETURNS jsonb LANGUAGE SQL AS '
+                SELECT
+                    jsonb_object_agg(
+                        coalesce(ka, kb),
+                        CASE
+                            WHEN va isnull THEN vb
+                            WHEN vb isnull THEN va
+                            WHEN jsonb_typeof(va) <> ''object'' OR jsonb_typeof(vb) <> ''object'' THEN vb
+                            ELSE jsonb_recursive_merge(va, vb)
+                            END
+                    )
+                FROM jsonb_each(A) temptable1(ka, va)
+                     FULL JOIN jsonb_each(B) temptable2(kb, vb) ON ka = kb
+            '
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet author="mattae" id="20220315202001-02">
+        <sql>
+            <![CDATA[
+            create
+            or replace function configuration_value(_category varchar, _key varchar) returns
+	            table (type text, value text) language plpgsql as '
+	            declare
+                    rec jsonb;
+		            _result jsonb:= ''[]''::jsonb;
+                begin
+                    for rec in select jsonb_path_query_array(l, ''$[*] ? (@.key == $key)'',
+						format(''{"key": "%s"}'', _key)::jsonb) from configuration c left join plugin p on p.id =
+						plugin_id,jsonb_array_elements(c.data) with ordinality a(l) where c.category = _category and
+						(p.id is null or p.started = true) and jsonb_array_length(jsonb_path_query_array(l, ''$[*] ? (@.key == $key)'',
+						format(''{"key": "%s"}'', _key)::jsonb)) > 0 order by _order desc, c.id
+                    loop
+						IF NOT EXISTS (
+    						SELECT 1 FROM jsonb_array_elements(_result) elem
+    							WHERE elem->>''key'' = (rec[0])->>''key''
+  						) THEN
+    						_result := _result || rec;
+  						END IF;
+                    end loop;
+                    if (_result is not null) then
+			             return query select _result[0]->>''type'', _result[0]->>''value'';
+                    end if;
+		            return ;
+                end;
+            '
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet author="mattae" id="20220315202001-03">
+        <sql>
+            <![CDATA[
+            create
+            or replace function value_set_display(_system varchar, code varchar, _lang varchar default null) returns
+	            varchar language plpgsql as '
+	            declare
+                    rec jsonb;
+		            _result jsonb:= ''[]''::jsonb;
+                begin
+                    for rec in select jsonb_path_query_array(l, ''$[*] ? (@.active == true && @.code == $code)'',
+                        format(''{"code": "%s"}'', code)::jsonb) from value_set c left join plugin p on p.id =
+                        plugin_id,jsonb_array_elements(values) with ordinality a(l) where c.system = _system and
+                        (p.id is null or p.started = true) and (case when _lang is null then true else lang = _lang end)
+                        and jsonb_array_length(jsonb_path_query_array(l, ''$[*] ? (@.active == true && @.code == $code)'',
+                        format(''{"code": "%s"}'', code)::jsonb)) > 0 order by _order desc, c.id
+                    loop
+						IF NOT EXISTS (
+    						SELECT 1 FROM jsonb_array_elements(_result) elem
+    							WHERE elem->>''code'' = (rec[0])->>''code''
+  						) THEN
+    						_result := _result || rec;
+  						END IF;
+                    end loop;
+                    if (_result is not null) then
+			            return _result[0]->>''display'';
+                    end if;
+		            return null;
+                end;
+            '
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet author="mattae" id="20220315202001-04">
+        <sql>
+            <![CDATA[
+            create
+            or replace function value_set_display_by_category_key(category varchar, key varchar, code varchar,
+                lang varchar default null) returns varchar language plpgsql as '
+	            declare
+                    _system varchar;
+                begin
+                    select value into _system from configuration_value(category, key);
+
+                    if (_system is not null) then
+			            return value_set_display(_system, code, lang);
+                    end if;
+		            return null;
+                end;
+            '
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet author="mattae" id="20230521102001-01">
+        <createTable tableName="preference">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="category" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="key" type="varchar(512)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="value" type="text">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint tableName="preference" columnNames="category,key"/>
+
+        <sql>
+            CREATE UNIQUE INDEX idx_unique_preference_category ON preference (category) WHERE key IS NULL;
+        </sql>
+    </changeSet>
+
+    <changeSet author="mattae" id="20230608182001-01">
+        <dropColumn tableName="plugin" columnName="data"/>
+
+        <addColumn tableName="plugin">
+            <column name="hash" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

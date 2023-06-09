@@ -2,7 +2,7 @@ package io.github.jbella.snl.core.api.domain;
 
 import com.blazebit.persistence.view.EntityView;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
