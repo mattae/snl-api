@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.5</version>
+        <version>3.1.1</version>
         <relativePath/>
     </parent>
 
@@ -20,9 +20,14 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.pf4j</groupId>
             <artifactId>pf4j</artifactId>
-            <version>3.8.0</version>
+            <version>3.9.0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -69,7 +74,12 @@
         <dependency>
             <groupId>org.laxture</groupId>
             <artifactId>sbp-core</artifactId>
-            <version>3.0.18</version>
+            <version>3.1.20</version>
+        </dependency>
+        <dependency>
+            <groupId>org.laxture</groupId>
+            <artifactId>sbp-spring-boot-jpa-starter</artifactId>
+            <version>3.1.20</version>
         </dependency>
         <dependency>
             <groupId>io.hypersistence</groupId>
@@ -82,20 +92,20 @@
         </dependency>
         <dependency>
             <groupId>com.blazebit</groupId>
-            <artifactId>blaze-persistence-integration-spring-data-base</artifactId>
-            <version>1.6.8</version>
+            <artifactId>blaze-persistence-integration-spring-data-base-3.1</artifactId>
+            <version>1.6.9</version>
         </dependency>
 
         <dependency>
             <groupId>com.blazebit</groupId>
             <artifactId>blaze-persistence-integration-jackson-jakarta</artifactId>
-            <version>1.6.8</version>
+            <version>1.6.9</version>
         </dependency>
 
         <dependency>
             <groupId>com.blazebit</groupId>
-            <artifactId>blaze-persistence-integration-spring-data-webmvc</artifactId>
-            <version>1.6.8</version>
+            <artifactId>blaze-persistence-integration-spring-data-webmvc-jakarta</artifactId>
+            <version>1.6.9</version>
         </dependency>
         <!-- https://search.maven.org/artifact/com.github.f4b6a3/uuid-creator -->
         <dependency>
@@ -116,6 +126,10 @@
             <groupId>com.networknt</groupId>
             <artifactId>json-schema-validator</artifactId>
             <version>1.0.78</version>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>

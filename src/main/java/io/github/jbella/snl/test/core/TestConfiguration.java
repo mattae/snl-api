@@ -16,29 +16,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
 
 @Configuration
 public class TestConfiguration {
-    private final TransactionManager transactionManager;
     private final EntityViewManager evm;
     private final ApplicationContext applicationContext;
     private final ConversionService conversionService;
 
-    public TestConfiguration(TransactionManager transactionManager, EntityViewManager evm, ApplicationContext applicationContext,
+    public TestConfiguration(EntityViewManager evm, ApplicationContext applicationContext,
                              @Lazy @Qualifier("mvcConversionService") ConversionService conversionService) {
-        this.transactionManager = transactionManager;
         this.evm = evm;
         this.applicationContext = applicationContext;
         this.conversionService = conversionService;
-    }
-
-
-    @Bean
-    public TransactionTemplate getTransactionTemplate() {
-        return new TransactionTemplate((PlatformTransactionManager) transactionManager);
     }
 
     @Bean
