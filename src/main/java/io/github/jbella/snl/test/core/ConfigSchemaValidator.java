@@ -34,7 +34,7 @@ public class ConfigSchemaValidator {
                 .validate(MAPPER.readTree(config));
         if (!invalidMessages.isEmpty()) {
             log.debug("Schema validation failed:\n {}", config);
-            invalidMessages.forEach(m -> log.debug("...{}", m.getMessage()));
+            invalidMessages.forEach(m -> System.out.printf("...%s", m.getMessage()));
         }
 
         return invalidMessages.isEmpty();

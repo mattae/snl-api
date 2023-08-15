@@ -44,6 +44,8 @@ public class Organisation {
 
     private LocalDate establishmentDate;
 
+    private LocalDate validityDate;
+
     @ManyToOne
     private Organisation parent;
 
@@ -79,6 +81,8 @@ public class Organisation {
 
         LocalDate getEstablishmentDate();
 
+        LocalDate getValidityDate();
+
         @Mapping("party.identifiers")
         Set<Identifier.View> getIdentifiers();
 
@@ -99,6 +103,8 @@ public class Organisation {
         void setPhone(String phone);
 
         void setEstablishmentDate(LocalDate date);
+
+        void setValidityDate(LocalDate date);
 
         IdView getParent();
 

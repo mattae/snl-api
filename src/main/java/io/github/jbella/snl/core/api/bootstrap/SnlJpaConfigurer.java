@@ -19,12 +19,20 @@ import org.laxture.sbp.SpringBootPlugin;
 import org.laxture.sbp.spring.boot.PluginEntityManagerFactoryBeanRegister;
 import org.laxture.sbp.spring.boot.PluginPersistenceManagedTypes;
 import org.laxture.sbp.spring.boot.SbpJpaConfigurer;
+import org.laxture.sbp.spring.boot.SpringBootstrap;
+import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 public class SnlJpaConfigurer extends SbpJpaConfigurer {
 
     public SnlJpaConfigurer(String[] modelPackages) {
         super(modelPackages);
+    }
+
+    @Override
+    public void onBootstrap(SpringBootstrap bootstrap, GenericApplicationContext pluginApplicationContext) {
+        Thread.currentThread().setContextClassLoader(pluginApplicationContext.getClassLoader());
+        super.onBootstrap(bootstrap, pluginApplicationContext);
     }
 
     @Override

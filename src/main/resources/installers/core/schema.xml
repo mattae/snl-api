@@ -516,4 +516,14 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="mattae" id="20230808182001-01">
+        <addColumn tableName="organisation">
+            <column name="validity_date" type="date"/>
+        </addColumn>
+
+        <sql>
+            alter table organisation add constraint validity_check check(validity_date > establishment_date)
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

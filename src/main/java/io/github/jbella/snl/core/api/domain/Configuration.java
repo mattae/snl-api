@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -86,8 +87,19 @@ public class Configuration {
         @NotNull
         private Type type;
 
+        private String regex;
+
+        private List<DataOption> options;
+
         public enum Type {
             string, numeric, bool, date
+        }
+
+        @Getter
+        @Setter
+        public static class DataOption {
+            private String value;
+            private String label;
         }
     }
 

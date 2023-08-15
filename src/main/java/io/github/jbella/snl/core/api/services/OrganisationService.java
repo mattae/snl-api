@@ -9,5 +9,5 @@ import java.util.UUID;
 public interface OrganisationService {
     Optional<Organisation.CreateView> getById(UUID id);
 
-    PagedResult<Organisation.ShortView> list(String keyword, String type, Boolean active, int start, int pageSize);
+    PagedResult<Organisation.ShortView> list(String keyword, String type, Boolean active, Boolean valid, int start, int pageSize);
 }
