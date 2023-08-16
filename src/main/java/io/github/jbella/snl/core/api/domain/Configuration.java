@@ -109,7 +109,7 @@ public class Configuration {
         UUID getId();
     }
 
-    @EntityView(ValueSet.class)
+    @EntityView(Configuration.class)
     public interface ConfigurationPluginView {
         @IdMapping
         Long getId();
