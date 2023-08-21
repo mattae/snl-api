@@ -24,6 +24,8 @@ import org.springframework.boot.actuate.endpoint.web.annotation.WebEndpointDisco
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafProperties;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.interceptor.BeanFactoryCacheOperationSourceAdvisor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -90,6 +92,8 @@ public class EnhancedSpringBootstrap extends SpringBootstrap {
         importBeanFromMainContext(applicationContext, TransactionManager.class);
         importBeanFromMainContext(applicationContext, TransactionHandler.class);
         importBeanFromMainContext(applicationContext, MeterRegistry.class);
+        importBeanFromMainContext(applicationContext, BeanFactoryCacheOperationSourceAdvisor.class);
+        importBeanFromMainContext(applicationContext, CacheManager.class);
         getGraphqlControllers(plugin.getMainApplicationContext())
                 .forEach(controller -> importBeanFromMainContext(applicationContext, controller.getClass()));
 
