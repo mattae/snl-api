@@ -3,6 +3,7 @@ package io.github.jbella.snl.core.api.bootstrap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.jbella.snl.core.api.services.*;
 import io.github.jbella.snl.core.api.services.errors.ExceptionTranslator;
+import io.micrometer.core.instrument.MeterRegistry;
 import liquibase.exception.LiquibaseException;
 import liquibase.integration.spring.SpringLiquibase;
 import lombok.extern.slf4j.Slf4j;
@@ -10,12 +11,16 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.laxture.sbp.SpringBootPlugin;
 import org.laxture.sbp.spring.boot.SpringBootstrap;
 import org.pf4j.PluginManager;
-import org.springdoc.webmvc.api.OpenApiWebMvcResource;
-import org.springdoc.webmvc.ui.SwaggerConfigResource;
-import org.springdoc.webmvc.ui.SwaggerWelcomeWebMvc;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
+import org.springframework.boot.actuate.endpoint.EndpointFilter;
+import org.springframework.boot.actuate.endpoint.invoke.OperationInvokerAdvisor;
+import org.springframework.boot.actuate.endpoint.invoke.ParameterValueMapper;
+import org.springframework.boot.actuate.endpoint.web.EndpointMediaTypes;
+import org.springframework.boot.actuate.endpoint.web.ExposableWebEndpoint;
+import org.springframework.boot.actuate.endpoint.web.PathMapper;
+import org.springframework.boot.actuate.endpoint.web.annotation.WebEndpointDiscoverer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafProperties;
@@ -24,6 +29,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.MethodIntrospector;
+import org.springframework.core.ResolvableType;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
@@ -78,14 +84,12 @@ public class EnhancedSpringBootstrap extends SpringBootstrap {
         importBeanFromMainContext(applicationContext, DataSource.class);
         importBeanFromMainContext(applicationContext, ObjectMapper.class);
         importBeanFromMainContext(applicationContext, ExceptionTranslator.class);
-        importBeanFromMainContext(applicationContext, OpenApiWebMvcResource.class);
-        importBeanFromMainContext(applicationContext, SwaggerWelcomeWebMvc.class);
-        importBeanFromMainContext(applicationContext, SwaggerConfigResource.class);
         importBeanFromMainContext(applicationContext, ExtensionService.class);
         importBeanFromMainContext(applicationContext, PreferenceService.class);
         importBeanFromMainContext(applicationContext, ConversionService.class);
         importBeanFromMainContext(applicationContext, TransactionManager.class);
         importBeanFromMainContext(applicationContext, TransactionHandler.class);
+        importBeanFromMainContext(applicationContext, MeterRegistry.class);
         getGraphqlControllers(plugin.getMainApplicationContext())
                 .forEach(controller -> importBeanFromMainContext(applicationContext, controller.getClass()));
 
@@ -113,6 +117,22 @@ public class EnhancedSpringBootstrap extends SpringBootstrap {
         beanDefinition = new GenericBeanDefinition();
         beanDefinition.setBeanClass(LiquibaseConfiguration.class);
         applicationContext.registerBeanDefinition("liquibaseConfiguration", beanDefinition);
+
+
+        ParameterValueMapper parameterValueMapper = getMainApplicationContext().getBean(ParameterValueMapper.class);
+        EndpointMediaTypes endpointMediaTypes = getMainApplicationContext().getBean(EndpointMediaTypes.class);
+        ObjectProvider<PathMapper> endpointPathMappers = getMainApplicationContext().getBeanProvider(PathMapper.class);
+        ObjectProvider<OperationInvokerAdvisor> invokerAdvisors = getMainApplicationContext().getBeanProvider(OperationInvokerAdvisor.class);
+        ObjectProvider<EndpointFilter<ExposableWebEndpoint>> filters = getMainApplicationContext()
+                .getBeanProvider(ResolvableType.forClass(EndpointFilter.class));
+
+        var discoverer = new WebEndpointDiscoverer(applicationContext, parameterValueMapper, endpointMediaTypes,
+                endpointPathMappers.orderedStream().toList(), invokerAdvisors.orderedStream().toList(),
+                filters.orderedStream().toList());
+        beanDefinition = new GenericBeanDefinition();
+        beanDefinition.setBeanClass(WebEndpointDiscoverer.class);
+        beanDefinition.setInstanceSupplier(() -> discoverer);
+        applicationContext.registerBeanDefinition("webEndpointDiscoverer", beanDefinition);
     }
 
     private SpringTemplateEngine getSpringTemplateEngine(ThymeleafProperties properties,
