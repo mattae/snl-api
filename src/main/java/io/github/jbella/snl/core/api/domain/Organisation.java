@@ -92,17 +92,25 @@ public class Organisation {
 
     @EntityView(Organisation.class)
     @CreatableEntityView
-    public interface CreateView extends View {
+    public interface CreateView extends IdView {
         @NotNull
         String getName();
 
         void setName(String name);
 
+        String getEmail();
+
         void setEmail(String email);
+
+        String getPhone();
 
         void setPhone(String phone);
 
+        LocalDate getEstablishmentDate();
+
         void setEstablishmentDate(LocalDate date);
+
+        LocalDate getValidityDate();
 
         void setValidityDate(LocalDate date);
 
@@ -125,6 +133,8 @@ public class Organisation {
         Boolean getArchived();
 
         void setArchived(Boolean archived);
+
+        Boolean getActive();
 
         void setActive(Boolean active);
 
