@@ -18,6 +18,7 @@ import java.util.UUID;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
 @Setter
+@Table(name = "fw_value_set")
 public class ValueSet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

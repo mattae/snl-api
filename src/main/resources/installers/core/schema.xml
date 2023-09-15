@@ -395,18 +395,17 @@
         </sql>
     </changeSet>
 
-    <changeSet author="mattae" id="20220315202001-02">
+    <changeSet author="mattae" id="20220315202001-02-1">
         <sql>
             <![CDATA[
-            create
-            or replace function configuration_value(_category varchar, _key varchar) returns
+            create or replace function configuration_value(_category varchar, _key varchar) returns
 	            table (type text, value text) language plpgsql as '
 	            declare
                     rec jsonb;
 		            _result jsonb:= ''[]''::jsonb;
                 begin
                     for rec in select jsonb_path_query_array(l, ''$[*] ? (@.key == $key)'',
-						format(''{"key": "%s"}'', _key)::jsonb) from configuration c left join plugin p on p.id =
+						format(''{"key": "%s"}'', _key)::jsonb) from fw_configuration c left join fw_plugin p on p.id =
 						plugin_id,jsonb_array_elements(c.data) with ordinality a(l) where c.category = _category and
 						(p.id is null or p.started = true) and jsonb_array_length(jsonb_path_query_array(l, ''$[*] ? (@.key == $key)'',
 						format(''{"key": "%s"}'', _key)::jsonb)) > 0 order by _order desc, c.id
@@ -428,18 +427,17 @@
         </sql>
     </changeSet>
 
-    <changeSet author="mattae" id="20220315202001-03">
+    <changeSet author="mattae" id="20220315202001-03-1">
         <sql>
             <![CDATA[
-            create
-            or replace function value_set_display(_system varchar, code varchar, _lang varchar default null) returns
+            create or replace function value_set_display(_system varchar, code varchar, _lang varchar default null) returns
 	            varchar language plpgsql as '
 	            declare
                     rec jsonb;
 		            _result jsonb:= ''[]''::jsonb;
                 begin
                     for rec in select jsonb_path_query_array(l, ''$[*] ? (@.active == true && @.code == $code)'',
-                        format(''{"code": "%s"}'', code)::jsonb) from value_set c left join plugin p on p.id =
+                        format(''{"code": "%s"}'', code)::jsonb) from fw_value_set c left join fw_plugin p on p.id =
                         plugin_id,jsonb_array_elements(values) with ordinality a(l) where c.system = _system and
                         (p.id is null or p.started = true) and (case when _lang is null then true else lang = _lang end)
                         and jsonb_array_length(jsonb_path_query_array(l, ''$[*] ? (@.active == true && @.code == $code)'',
@@ -524,6 +522,27 @@
         <sql>
             alter table organisation add constraint validity_check check(validity_date > establishment_date)
         </sql>
+    </changeSet>
+
+    <changeSet author="mattae" id="202309112223923-01">
+        <renameTable oldTableName="party_addresses" newTableName="fw_party_addresses"/>
+        <renameTable oldTableName="administrative_division" newTableName="fw_administrative_division"/>
+        <renameTable oldTableName="configuration" newTableName="fw_configuration"/>
+        <renameTable oldTableName="country" newTableName="fw_country"/>
+        <renameTable oldTableName="organisation" newTableName="fw_organisation"/>
+        <renameTable oldTableName="party" newTableName="fw_party"/>
+        <renameTable oldTableName="party_identifiers" newTableName="fw_party_identifiers"/>
+        <renameTable oldTableName="person" newTableName="fw_person"/>
+        <renameTable oldTableName="plugin" newTableName="fw_plugin"/>
+        <renameTable oldTableName="preference" newTableName="fw_preference"/>
+        <renameTable oldTableName="translation" newTableName="fw_translation"/>
+        <renameTable oldTableName="value_set" newTableName="fw_value_set"/>
+    </changeSet>
+
+    <changeSet author="mattae" id="202309112223923-02">
+        <addColumn tableName="fw_configuration">
+            <column name="description" type="text"/>
+        </addColumn>
     </changeSet>
 
 </databaseChangeLog>

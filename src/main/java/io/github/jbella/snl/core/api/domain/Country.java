@@ -12,6 +12,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name = "fw_country")
 public class Country implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

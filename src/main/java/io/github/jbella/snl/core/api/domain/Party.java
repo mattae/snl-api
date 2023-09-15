@@ -22,11 +22,12 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@SQLDelete(sql = "update party set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
+@SQLDelete(sql = "update fw_party set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
 @Where(clause = "archived = false")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
+@Table(name = "fw_party")
 public class Party {
     @Id
     @UUIDV7

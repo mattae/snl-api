@@ -25,9 +25,9 @@ import java.util.UUID;
 @Entity
 @Data
 @EqualsAndHashCode(of = "id", callSuper = false)
-@SQLDelete(sql = "update organisation set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
+@SQLDelete(sql = "update fw_organisation set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
 @Where(clause = "archived = false")
-@ToString(of = {"id", "name", "party"})
+@Table(name = "fw_organisation")
 public class Organisation {
     @Id
     @UUIDV7

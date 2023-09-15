@@ -15,6 +15,7 @@ import jakarta.validation.constraints.NotNull;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name = "fw_translation")
 public class Translation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

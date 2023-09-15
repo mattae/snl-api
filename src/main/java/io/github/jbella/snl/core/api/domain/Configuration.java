@@ -19,6 +19,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name = "fw_configuration")
 public class Configuration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +29,8 @@ public class Configuration {
     @NotNull
     @EqualsAndHashCode.Include
     private String category;
+
+    private String description;
 
     @Column(name = "_order")
     private Integer order = 1;
@@ -49,6 +52,10 @@ public class Configuration {
         String getCategory();
 
         void setCategory(String category);
+
+        String getDescription();
+
+        void setDescription(String description);
 
         Integer getOrder();
 
@@ -88,6 +95,8 @@ public class Configuration {
         private Type type;
 
         private String regex;
+
+        private Boolean masked;
 
         private List<DataOption> options;
 
