@@ -22,10 +22,11 @@ import java.util.UUID;
 
 @Entity
 @EqualsAndHashCode(of = "id")
-@SQLDelete(sql = "update person set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
+@SQLDelete(sql = "update fw_person set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
 @Where(clause = "archived = false")
 @Getter
 @Setter
+@Table(name = "fw_person")
 public class Person {
     @Id
     @UUIDV7

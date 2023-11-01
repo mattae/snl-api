@@ -19,12 +19,12 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "party_identifiers")
+@Table(name = "fw_party_identifiers")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Where(clause = "archived = false")
 @Getter
 @Setter
-@SQLDelete(sql = "update party_identifiers set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
+@SQLDelete(sql = "update fw_party_identifiers set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
 public class Identifier {
     @Id
     @UUIDV7

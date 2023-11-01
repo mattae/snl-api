@@ -4,6 +4,7 @@ import io.github.jbella.snl.core.api.id.UUIDV7;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @EqualsAndHashCode(of = "name")
+@Table(name = "fw_plugin")
 public class Plugin implements Persistable<UUID> {
     @Id
     @UUIDV7

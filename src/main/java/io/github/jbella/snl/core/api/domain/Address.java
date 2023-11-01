@@ -26,8 +26,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "party_addresses")
-@SQLDelete(sql = "update party_addresses set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
+@Table(name = "fw_party_addresses")
+@SQLDelete(sql = "update fw_party_addresses set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
 @EntityListeners(AuditEntityListener.class)
 public class Address {
     @Id

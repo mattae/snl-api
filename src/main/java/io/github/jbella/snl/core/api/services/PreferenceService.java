@@ -26,7 +26,7 @@ public interface PreferenceService {
 
     Optional<Preference> getPreference(@Nonnull String category, @Nullable String key);
 
-    Optional<Integer> getIntValue(@Nonnull String category, @Nullable String key);
+    Optional<Double> getNumericValue(@Nonnull String category, @Nullable String key);
 
     Optional<String> getStringValue(@Nonnull String category, @Nullable String key);
 
