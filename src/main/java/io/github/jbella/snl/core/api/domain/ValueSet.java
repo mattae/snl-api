@@ -98,6 +98,8 @@ public class ValueSet {
 
         String getDescription();
 
+        String getLang();
+
         Integer getOrder();
     }
 

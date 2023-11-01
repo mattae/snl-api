@@ -98,6 +98,8 @@ public class Configuration {
 
         private Boolean masked;
 
+        private String system;
+
         private List<DataOption> options;
 
         public enum Type {
