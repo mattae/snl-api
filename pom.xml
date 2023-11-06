@@ -143,6 +143,11 @@
             <artifactId>swagger-annotations-jakarta</artifactId>
             <version>2.2.15</version>
         </dependency>
+        <dependency>
+            <groupId>com.graphql-java</groupId>
+            <artifactId>graphql-java-extended-scalars</artifactId>
+            <version>21.0</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
