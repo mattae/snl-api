@@ -1,6 +1,7 @@
 package io.github.jbella.snl.core.api.bootstrap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import graphql.scalars.ExtendedScalars;
 import io.github.jbella.snl.core.api.services.*;
 import io.github.jbella.snl.core.api.services.errors.ExceptionTranslator;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -36,6 +37,7 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.stereotype.Controller;
@@ -137,6 +139,39 @@ public class EnhancedSpringBootstrap extends SpringBootstrap {
         beanDefinition.setBeanClass(WebEndpointDiscoverer.class);
         beanDefinition.setInstanceSupplier(() -> discoverer);
         applicationContext.registerBeanDefinition("webEndpointDiscoverer", beanDefinition);
+
+        beanDefinition = new GenericBeanDefinition();
+        beanDefinition.setBeanClass(RuntimeWiringConfigurer.class);
+        beanDefinition.setInstanceSupplier(this::runtimeWiringConfigurer);
+        applicationContext.registerBeanDefinition("runtimeWiringConfigurer", beanDefinition);
+    }
+
+    private RuntimeWiringConfigurer runtimeWiringConfigurer() {
+        return wiringBuilder -> {
+            wiringBuilder.scalar(ExtendedScalars.LocalTime);
+            wiringBuilder.scalar(ExtendedScalars.GraphQLChar);
+            wiringBuilder.scalar(ExtendedScalars.CountryCode);
+            wiringBuilder.scalar(ExtendedScalars.Currency);
+            wiringBuilder.scalar(ExtendedScalars.Date);
+            wiringBuilder.scalar(ExtendedScalars.GraphQLBigDecimal);
+            wiringBuilder.scalar(ExtendedScalars.GraphQLBigInteger);
+            wiringBuilder.scalar(ExtendedScalars.GraphQLByte);
+            wiringBuilder.scalar(ExtendedScalars.GraphQLLong);
+            wiringBuilder.scalar(ExtendedScalars.GraphQLShort);
+            wiringBuilder.scalar(ExtendedScalars.Locale);
+            wiringBuilder.scalar(ExtendedScalars.NegativeFloat);
+            wiringBuilder.scalar(ExtendedScalars.NegativeInt);
+            wiringBuilder.scalar(ExtendedScalars.NonNegativeFloat);
+            wiringBuilder.scalar(ExtendedScalars.NonNegativeInt);
+            wiringBuilder.scalar(ExtendedScalars.NonPositiveFloat);
+            wiringBuilder.scalar(ExtendedScalars.NonPositiveInt);
+            wiringBuilder.scalar(ExtendedScalars.Object);
+            wiringBuilder.scalar(ExtendedScalars.PositiveFloat);
+            wiringBuilder.scalar(ExtendedScalars.PositiveInt);
+            wiringBuilder.scalar(ExtendedScalars.Time);
+            wiringBuilder.scalar(ExtendedScalars.Url);
+            wiringBuilder.scalar(ExtendedScalars.UUID);
+        };
     }
 
     private SpringTemplateEngine getSpringTemplateEngine(ThymeleafProperties properties,

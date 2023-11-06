@@ -5,6 +5,7 @@ import com.blazebit.persistence.spring.data.webmvc.impl.json.EntityViewAwareMapp
 import com.blazebit.persistence.spring.data.webmvc.impl.json.EntityViewIdValueHolder;
 import com.blazebit.persistence.view.EntityViewManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import graphql.scalars.ExtendedScalars;
 import org.laxture.sbp.mock.MockSpringBootPluginManager;
 import org.laxture.sbp.mock.MockSpringExtensionFactory;
 import org.pf4j.ExtensionFactory;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.graphql.execution.RuntimeWiringConfigurer;
 
 @Configuration
 public class TestConfiguration {
@@ -57,5 +59,34 @@ public class TestConfiguration {
 
     private EntityViewIdValueAccessor blazeWebmvcIdAttributeAccessor() {
         return new EntityViewIdValueHolder(conversionService);
+    }
+
+    @Bean
+    public RuntimeWiringConfigurer runtimeWiringConfigurer() {
+        return wiringBuilder -> {
+            wiringBuilder.scalar(ExtendedScalars.LocalTime);
+            wiringBuilder.scalar(ExtendedScalars.GraphQLChar);
+            wiringBuilder.scalar(ExtendedScalars.CountryCode);
+            wiringBuilder.scalar(ExtendedScalars.Currency);
+            wiringBuilder.scalar(ExtendedScalars.Date);
+            wiringBuilder.scalar(ExtendedScalars.GraphQLBigDecimal);
+            wiringBuilder.scalar(ExtendedScalars.GraphQLBigInteger);
+            wiringBuilder.scalar(ExtendedScalars.GraphQLByte);
+            wiringBuilder.scalar(ExtendedScalars.GraphQLLong);
+            wiringBuilder.scalar(ExtendedScalars.GraphQLShort);
+            wiringBuilder.scalar(ExtendedScalars.Locale);
+            wiringBuilder.scalar(ExtendedScalars.NegativeFloat);
+            wiringBuilder.scalar(ExtendedScalars.NegativeInt);
+            wiringBuilder.scalar(ExtendedScalars.NonNegativeFloat);
+            wiringBuilder.scalar(ExtendedScalars.NonNegativeInt);
+            wiringBuilder.scalar(ExtendedScalars.NonPositiveFloat);
+            wiringBuilder.scalar(ExtendedScalars.NonPositiveInt);
+            wiringBuilder.scalar(ExtendedScalars.Object);
+            wiringBuilder.scalar(ExtendedScalars.PositiveFloat);
+            wiringBuilder.scalar(ExtendedScalars.PositiveInt);
+            wiringBuilder.scalar(ExtendedScalars.Time);
+            wiringBuilder.scalar(ExtendedScalars.Url);
+            wiringBuilder.scalar(ExtendedScalars.UUID);
+        };
     }
 }
