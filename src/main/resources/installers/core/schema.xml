@@ -545,4 +545,24 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="mattae" id="202311201323-01">
+       <createTable tableName="fw_icon_set">
+           <column name="id" type="UUID" defaultValueComputed="uuid_v7()">
+               <constraints nullable="false" primaryKey="true"/>
+           </column>
+           <column name="namespace" type="varchar(32)">
+               <constraints nullable="false"/>
+           </column>
+           <column name="svg" type="text">
+               <constraints nullable="false"/>
+           </column>
+           <column name="plugin_id" type="UUID">
+               <constraints nullable="false"/>
+           </column>
+       </createTable>
+
+        <addForeignKeyConstraint baseTableName="fw_icon_set" baseColumnNames="plugin_id"
+                                 constraintName="fk_fw_icon_set_plugin_id" referencedTableName="fw_plugin"
+                                 referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>
