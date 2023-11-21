@@ -58,6 +58,14 @@
         "valueSetsPath": {
             "type": "string",
             "minLength": 7
+        },
+        "iconSets": {
+            "type": "array",
+            "minimum": 1,
+            "items": {
+                "type": "object",
+                "$ref": "#/definitions/iconSet"
+            }
         }
     },
     "definitions": {
@@ -287,6 +295,23 @@
                     "minLength": 2
                 },
                 "path": {
+                    "type": "string",
+                    "minLength": 7
+                }
+            },
+            "additionalProperties": false
+        },
+        "iconSet": {
+            "required": [
+                "namespace",
+                "svgPath"
+            ],
+            "properties": {
+                "namespace": {
+                    "type": "string",
+                    "minLength": 2
+                },
+                "svgPath": {
                     "type": "string",
                     "minLength": 7
                 }
