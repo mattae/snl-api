@@ -35,9 +35,11 @@ import org.springframework.core.MethodIntrospector;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.graphql.ExecutionGraphQlService;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.stereotype.Controller;
@@ -46,6 +48,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.function.support.RouterFunctionMapping;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
@@ -96,6 +99,9 @@ public class EnhancedSpringBootstrap extends SpringBootstrap {
         importBeanFromMainContext(applicationContext, MeterRegistry.class);
         importBeanFromMainContext(applicationContext, BeanFactoryCacheOperationSourceAdvisor.class);
         importBeanFromMainContext(applicationContext, CacheManager.class);
+        importBeanFromMainContext(applicationContext, ExecutionGraphQlService.class);
+        importBeanFromMainContext(applicationContext, ObjectPostProcessor.class);
+        importBeanFromMainContext(applicationContext, HandlerMappingIntrospector.class);
         getGraphqlControllers(plugin.getMainApplicationContext())
                 .forEach(controller -> importBeanFromMainContext(applicationContext, controller.getClass()));
 

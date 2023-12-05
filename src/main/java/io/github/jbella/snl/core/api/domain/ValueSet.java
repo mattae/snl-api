@@ -101,6 +101,8 @@ public class ValueSet {
         String getLang();
 
         Integer getOrder();
+
+        PluginView getPlugin();
     }
 
     @Getter
