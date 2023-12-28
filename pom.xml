@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.5</version>
+        <version>3.2.1</version>
         <relativePath/>
     </parent>
 
@@ -88,21 +88,20 @@
         <dependency>
             <groupId>com.blazebit</groupId>
             <artifactId>blaze-persistence-integration-spring-data-base-3.1</artifactId>
-            <version>1.6.9</version>
+            <version>1.6.10</version>
         </dependency>
 
         <dependency>
             <groupId>com.blazebit</groupId>
             <artifactId>blaze-persistence-integration-jackson-jakarta</artifactId>
-            <version>1.6.9</version>
+            <version>1.6.10</version>
         </dependency>
 
         <dependency>
             <groupId>com.blazebit</groupId>
             <artifactId>blaze-persistence-integration-spring-data-webmvc-jakarta</artifactId>
-            <version>1.6.9</version>
+            <version>1.6.10</version>
         </dependency>
-        <!-- https://search.maven.org/artifact/com.github.f4b6a3/uuid-creator -->
         <dependency>
             <groupId>com.github.f4b6a3</groupId>
             <artifactId>uuid-creator</artifactId>
