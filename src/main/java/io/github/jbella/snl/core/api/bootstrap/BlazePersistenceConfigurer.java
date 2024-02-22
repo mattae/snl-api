@@ -17,6 +17,7 @@ import org.laxture.sbp.SpringBootPlugin;
 import org.laxture.sbp.spring.boot.IPluginConfigurer;
 import org.laxture.sbp.spring.boot.PluginPersistenceManagedTypes;
 import org.laxture.sbp.spring.boot.SpringBootstrap;
+import org.pf4j.PluginState;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
@@ -27,7 +28,7 @@ import org.springframework.util.ClassUtils;
 
 import java.util.*;
 
-public class BlazePersistenceConfigurer implements IPluginConfigurer {
+class BlazePersistenceConfigurer implements IPluginConfigurer {
     private final List<Class<?>> modelPackages;
 
     BlazePersistenceConfigurer(List<Class<?>> modelPackages) {
@@ -62,32 +63,7 @@ public class BlazePersistenceConfigurer implements IPluginConfigurer {
         EntityViewConfiguration configuration = EntityViews.createDefaultConfiguration();
         configuration.setTransactionSupport(new SpringTransactionSupport(
                 bootstrap.getMainApplicationContext().getBean(PlatformTransactionManager.class)));
-        Environment env = applicationContext.getEnvironment();
-        var configurationSource = new AbstractEntityViewConfigurationSource(env) {
-
-            @Override
-            public Iterable<String> getBasePackages() {
-                List<String> scanPackages = new ArrayList<>(modelPackages.stream()
-                        .map(Class::getPackageName).toList());
-                PluginPersistenceManagedTypes persistenceManagedTypes = (PluginPersistenceManagedTypes)
-                        bootstrap.getMainApplicationContext().getBean("persistenceManagedTypes");
-                scanPackages.addAll(persistenceManagedTypes.getManagedPackages());
-                scanPackages.addAll(persistenceManagedTypes.getManagedClassNames());
-                scanPackages.add(CoreDomain.class.getPackageName());
-
-                return scanPackages;
-            }
-
-            @Override
-            protected Iterable<TypeFilter> getExcludeFilters() {
-                return Collections.emptyList();
-            }
-
-            @Override
-            protected Iterable<TypeFilter> getIncludeFilters() {
-                return Collections.emptyList();
-            }
-        };
+        var configurationSource = getEntityViewConfigurationSource(bootstrap, applicationContext);
 
         Set<Class<?>> entityViewClasses = new HashSet<>();
         Set<Class<?>> entityViewListenerClasses = new HashSet<>();
@@ -113,6 +89,35 @@ public class BlazePersistenceConfigurer implements IPluginConfigurer {
         }
 
         return configuration;
+    }
+
+    private AbstractEntityViewConfigurationSource getEntityViewConfigurationSource(SpringBootstrap bootstrap, ApplicationContext applicationContext) {
+        Environment env = applicationContext.getEnvironment();
+        return new AbstractEntityViewConfigurationSource(env) {
+
+            @Override
+            public Iterable<String> getBasePackages() {
+                List<String> scanPackages = new ArrayList<>(modelPackages.stream()
+                        .map(Class::getPackageName).toList());
+                PluginPersistenceManagedTypes persistenceManagedTypes = (PluginPersistenceManagedTypes)
+                        bootstrap.getMainApplicationContext().getBean("persistenceManagedTypes");
+                scanPackages.addAll(persistenceManagedTypes.getManagedPackages());
+                scanPackages.addAll(persistenceManagedTypes.getManagedClassNames());
+                scanPackages.add(CoreDomain.class.getPackageName());
+
+                return scanPackages;
+            }
+
+            @Override
+            protected Iterable<TypeFilter> getExcludeFilters() {
+                return Collections.emptyList();
+            }
+
+            @Override
+            protected Iterable<TypeFilter> getIncludeFilters() {
+                return Collections.emptyList();
+            }
+        };
     }
 
     private EntityViewManager createEntityViewManager(
