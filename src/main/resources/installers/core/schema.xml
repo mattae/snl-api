@@ -565,4 +565,87 @@
                                  constraintName="fk_fw_icon_set_plugin_id" referencedTableName="fw_plugin"
                                  referencedColumnNames="id"/>
     </changeSet>
+
+    <changeSet author="mattae" id="20240317-01">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="fw_value_set" columnName="lang"/>
+        </preConditions>
+        <dropColumn tableName="fw_value_set" columnName="lang"/>
+    </changeSet>
+
+    <changeSet id="" author="">
+        <sql>
+            <![CDATA[
+            CREATE OR REPLACE FUNCTION merge_translations(lang varchar) RETURNS jsonb LANGUAGE plpgsql AS
+                $$
+                DECLARE
+                    rec jsonb;
+                    _result jsonb := '{}'::jsonb;
+                BEGIN
+                    FOR rec IN SELECT data FROM fw_translation t JOIN fw_plugin p ON p.id = t.plugin_id WHERE p.enabled = true
+                        p.started = true AND t.lang = $1 ORDER BY _order
+	                LOOP
+                        _result := jsonb_recursive_merge(_result, rec);
+                    END LOOP;
+                    RETURN _result;
+                END;
+                $$;
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="" author="">
+        <sql>
+            <![CDATA[
+            CREATE OR REPLACE FUNCTION get_translation(data jsonb, key text) RETURNS varchar AS
+                $$
+                    DECLARE
+                        current_key text;
+                        current_data jsonb;
+                    BEGIN
+                        current_data := data;
+                        FOREACH current_key IN ARRAY string_to_array(key, '.')
+                        LOOP
+                            current_data := current_data -> current_key;
+                        END LOOP;
+                        RETURN TRIM('"' FROM current_data::text);
+                    END;
+                $$
+            LANGUAGE plpgsql;
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet author="mattae" id="20240317-02">
+        <sql>
+            <![CDATA[
+            create or replace function value_set_display(_system varchar, code varchar, _lang varchar default null) returns
+	            varchar language plpgsql as '
+	            declare
+                    rec jsonb;
+		            _result jsonb:= ''[]''::jsonb;
+                begin
+                    for rec in select jsonb_path_query_array(l, ''$[*] ? (@.active == true && @.code == $code)'',
+                        format(''{"code": "%s"}'', code)::jsonb) from fw_value_set c left join fw_plugin p on p.id =
+                        plugin_id,jsonb_array_elements(values) with ordinality a(l) where c.system = _system and
+                        (p.id is null or p.started = true) and
+                        jsonb_array_length(jsonb_path_query_array(l, ''$[*] ? (@.active == true && @.code == $code)'',
+                        format(''{"code": "%s"}'', code)::jsonb)) > 0 order by _order desc, c.id
+                    loop
+						IF NOT EXISTS (
+    						SELECT 1 FROM jsonb_array_elements(_result) elem
+    							WHERE elem->>''code'' = (rec[0])->>''code''
+  						) THEN
+    						_result := _result || rec;
+  						END IF;
+                    end loop;
+                    if (_result is not null) then
+			            return COALESCE(get_translation(merge_translations(_lang),_result[0]->>''display''),_result[0]->>''display'');
+                    end if;
+		            return null;
+                end;
+            '
+            ]]>
+        </sql>
+    </changeSet>
 </databaseChangeLog>

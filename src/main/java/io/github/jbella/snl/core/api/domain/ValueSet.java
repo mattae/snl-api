@@ -28,8 +28,6 @@ public class ValueSet {
     @NotNull
     private String system;
 
-    private String lang;
-
     private String description;
 
     @Column(name = "_order")
@@ -51,10 +49,6 @@ public class ValueSet {
         String getSystem();
 
         void setSystem(String system);
-
-        String getLang();
-
-        void setLang(String lang);
 
         String getDescription();
 
@@ -97,8 +91,6 @@ public class ValueSet {
         String getSystem();
 
         String getDescription();
-
-        String getLang();
 
         Integer getOrder();
 
