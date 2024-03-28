@@ -573,50 +573,49 @@
         <dropColumn tableName="fw_value_set" columnName="lang"/>
     </changeSet>
 
-    <changeSet id="" author="">
+    <changeSet author="mattae" id="20240321-01">
         <sql>
             <![CDATA[
             CREATE OR REPLACE FUNCTION merge_translations(lang varchar) RETURNS jsonb LANGUAGE plpgsql AS
-                $$
+                '
                 DECLARE
                     rec jsonb;
-                    _result jsonb := '{}'::jsonb;
+                    _result jsonb := ''{}''::jsonb;
                 BEGIN
                     FOR rec IN SELECT data FROM fw_translation t JOIN fw_plugin p ON p.id = t.plugin_id WHERE p.enabled = true
-                        p.started = true AND t.lang = $1 ORDER BY _order
+                        AND p.started = true AND t.lang = $1 ORDER BY _order
 	                LOOP
                         _result := jsonb_recursive_merge(_result, rec);
                     END LOOP;
                     RETURN _result;
                 END;
-                $$;
+               '
             ]]>
         </sql>
     </changeSet>
 
-    <changeSet id="" author="">
+    <changeSet author="mattae" id="20240321-02">
         <sql>
             <![CDATA[
-            CREATE OR REPLACE FUNCTION get_translation(data jsonb, key text) RETURNS varchar AS
-                $$
+            CREATE OR REPLACE FUNCTION get_translation(data jsonb, key text) RETURNS varchar LANGUAGE plpgsql AS
+               '
                     DECLARE
                         current_key text;
                         current_data jsonb;
                     BEGIN
                         current_data := data;
-                        FOREACH current_key IN ARRAY string_to_array(key, '.')
+                        FOREACH current_key IN ARRAY string_to_array(key, ''.'')
                         LOOP
                             current_data := current_data -> current_key;
                         END LOOP;
-                        RETURN TRIM('"' FROM current_data::text);
+                        RETURN TRIM(''"'' FROM current_data::text);
                     END;
-                $$
-            LANGUAGE plpgsql;
+                '
             ]]>
         </sql>
     </changeSet>
 
-    <changeSet author="mattae" id="20240317-02">
+    <changeSet author="mattae" id="20240321-03">
         <sql>
             <![CDATA[
             create or replace function value_set_display(_system varchar, code varchar, _lang varchar default null) returns
