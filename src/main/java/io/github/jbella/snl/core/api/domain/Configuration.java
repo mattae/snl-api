@@ -32,6 +32,8 @@ public class Configuration {
 
     private String description;
 
+    private Boolean personalized;
+
     @Column(name = "_order")
     private Integer order = 1;
 
@@ -62,6 +64,10 @@ public class Configuration {
         void setOrder(Integer order);
 
         PluginView getPlugin();
+
+        Boolean getPersonalized();
+
+        void setPersonalized(Boolean personalized);
 
         @NotEmpty
         @MappingSingular

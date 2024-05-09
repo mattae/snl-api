@@ -5,25 +5,23 @@ import com.blazebit.persistence.view.PreRemove;
 import com.blazebit.persistence.view.PreUpdate;
 import com.blazebit.persistence.view.*;
 import io.github.jbella.snl.core.api.id.UUIDV7;
-import io.github.jbella.snl.core.api.id.UUIDV7Generator;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.ResultCheckStyle;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.SoftDelete;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @EqualsAndHashCode(of = "id")
-@SQLDelete(sql = "update fw_person set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
-@Where(clause = "archived = false")
+@SoftDelete(columnName = "archived")
 @Getter
 @Setter
 @Table(name = "fw_person")
@@ -33,10 +31,12 @@ public class Person {
     private UUID id;
 
     @ManyToOne(optional = false, cascade = jakarta.persistence.CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @NotFound( action = NotFoundAction.EXCEPTION )
     private Party party;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotFound( action = NotFoundAction.EXCEPTION )
     private Organisation organisation;
 
     @Embedded
@@ -62,8 +62,6 @@ public class Person {
     private String placeOfDeath;
 
     private String countryOfDeath;
-
-    private Boolean archived = false;
 
     private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
@@ -132,30 +130,19 @@ public class Person {
 
         void setName(Name.NameView name);
 
-        Boolean getArchived();
-
-        void setArchived(Boolean archived);
-
         LocalDateTime getLastModifiedDate();
 
         void setLastModifiedDate(LocalDateTime date);
 
         @PreRemove
         default boolean preRemove() {
-            setArchived(true);
             setLastModifiedDate(LocalDateTime.now());
             return false;
-        }
-
-        @PreUpdate
-        default void preUpdate() {
-            setLastModifiedDate(LocalDateTime.now());
         }
 
         @PrePersist
         default void prePersist() {
             getParty().setType("PERSON");
-            setArchived(false);
             setLastModifiedDate(LocalDateTime.now());
         }
     }
@@ -168,5 +155,10 @@ public class Person {
         UUID getId();
 
         void setId(UUID id);
+
+        @PreUpdate
+        default void preUpdate() {
+            setLastModifiedDate(LocalDateTime.now());
+        }
     }
 }

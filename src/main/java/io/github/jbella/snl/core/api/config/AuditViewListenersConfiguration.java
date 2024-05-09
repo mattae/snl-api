@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class AuditViewListenersConfiguration<T> implements PrePersistListener<T>, PreUpdateListener<T>, PreRemoveListener<T> {
 
-    protected static String getPrincipal() {
+    public static String getPrincipal() {
         return ContextProvider.getBean(PluginManager.class)
                 .getExtensions(CurrentPrincipalServiceExtension.class).stream().findFirst()
                 .flatMap(CurrentPrincipalServiceExtension::getPrincipal).orElse("System");
@@ -38,7 +38,6 @@ public class AuditViewListenersConfiguration<T> implements PrePersistListener<T>
             auditable.setLastModifiedDate(date);
             auditable.setLastModifiedBy(Objects.requireNonNullElse(getPrincipal(), "system"));
             auditable.setCreatedBy(Objects.requireNonNullElse(getPrincipal(), "system"));
-            auditable.setArchived(false);
         }
     }
 
@@ -48,7 +47,6 @@ public class AuditViewListenersConfiguration<T> implements PrePersistListener<T>
             AuditableView auditable = (AuditableView) view;
             auditable.setLastModifiedDate(LocalDateTime.now());
             auditable.setLastModifiedBy(Objects.requireNonNullElse(getPrincipal(), "system"));
-            auditable.setArchived(true);
         }
         return false;
     }
