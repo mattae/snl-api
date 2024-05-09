@@ -7,10 +7,10 @@ import io.github.jbella.snl.core.api.services.errors.ExceptionTranslator;
 import io.micrometer.core.instrument.MeterRegistry;
 import liquibase.exception.LiquibaseException;
 import liquibase.integration.spring.SpringLiquibase;
-import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.laxture.sbp.SpringBootPlugin;
 import org.laxture.sbp.spring.boot.SpringBootstrap;
+import org.laxture.spring.util.ApplicationContextProvider;
 import org.pf4j.PluginManager;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
@@ -35,6 +35,8 @@ import org.springframework.core.MethodIntrospector;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.MapPropertySource;
 import org.springframework.graphql.ExecutionGraphQlService;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
@@ -55,15 +57,12 @@ import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import javax.sql.DataSource;
+import java.io.StringReader;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
-@Slf4j
 public class EnhancedSpringBootstrap extends SpringBootstrap {
     private final SpringBootPlugin plugin;
 
@@ -108,6 +107,39 @@ public class EnhancedSpringBootstrap extends SpringBootstrap {
         registerSupportingBeans(applicationContext);
 
         return applicationContext;
+    }
+
+    @Override
+    protected void configurePropertySources(ConfigurableEnvironment environment, String[] args) {
+        super.configurePropertySources(environment, args);
+
+        ApplicationContextProvider.getApplicationContext(ConfigurationService.class).getBean(ConfigurationService.class)
+                .getValueAsStringForKey("PLUGIN.SPRING.APPLICATION_CONFIGURATION", plugin.getWrapper().getPluginId())
+                .ifPresent(config -> {
+                    Map<String, Object> properiesMap = new HashMap<>();
+
+                    try {
+                        properiesMap = new YamlToProperties(config).asProperties();
+                    } catch (Exception ex) {
+                        try {
+                            var properties = new Properties();
+                            properties.load(new StringReader(config));
+                            properiesMap = properties.entrySet().stream().collect(
+                                    Collectors.toMap(
+                                            e -> String.valueOf(e.getKey()),
+                                            Map.Entry::getValue,
+                                            (prev, next) -> next, HashMap::new
+                                    ));
+                        } catch (Exception ignored) {
+                        }
+                    }
+
+                    if (!properiesMap.isEmpty()) {
+                        environment.getPropertySources().addLast(
+                                new MapPropertySource("Override configurations", properiesMap) {
+                                });
+                    }
+                });
     }
 
     private void registerSupportingBeans(AnnotationConfigApplicationContext applicationContext) {
@@ -233,7 +265,7 @@ public class EnhancedSpringBootstrap extends SpringBootstrap {
         return beans;
     }
 
-    @ConditionalOnProperty(prefix = "spring.liquibase", name = "enabled", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "spring.liquibase", name = "enabled")
     static class LiquibaseConfiguration implements InitializingBean {
         private final LiquibaseProperties properties;
         private final DataSource dataSource;

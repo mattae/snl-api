@@ -252,6 +252,9 @@
                 "description": {
                     "type": "string",
                     "maxLength": 128
+                },
+                "group": {
+                    "type": "string"
                 }
             },
             "additionalProperties": false
