@@ -647,4 +647,10 @@
             ]]>
         </sql>
     </changeSet>
+
+    <changeSet author="mattae" id="20240505-01">
+        <addColumn tableName="fw_configuration">
+            <column name="personalized" type="bool"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

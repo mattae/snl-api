@@ -5,25 +5,22 @@ import com.blazebit.persistence.view.PreRemove;
 import com.blazebit.persistence.view.*;
 import com.blazebit.persistence.view.filter.EqualFilter;
 import io.github.jbella.snl.core.api.id.UUIDV7;
-import io.github.jbella.snl.core.api.id.UUIDV7Generator;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.ResultCheckStyle;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.annotations.SoftDelete;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@SQLDelete(sql = "update fw_party set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
-@Where(clause = "archived = false")
+@SoftDelete(columnName = "archived")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -40,12 +37,12 @@ public class Party {
     private String displayName = "";
 
     @OneToMany(mappedBy = "party", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @SQLRestriction("archived = false")
     private Set<Address> addresses = new HashSet<>();
 
     @OneToMany(mappedBy = "party", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @SQLRestriction("archived = false")
     private Set<Identifier> identifiers = new HashSet<>();
-
-    private Boolean archived = false;
 
     private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
@@ -81,9 +78,6 @@ public class Party {
 
         void setIdentifiers(Set<Identifier.IdentifierView> identifiers);
 
-        Boolean getArchived();
-
-        void setArchived(Boolean archived);
 
         LocalDateTime getLastModifiedDate();
 
@@ -91,7 +85,6 @@ public class Party {
 
         @PreRemove
         default boolean preRemove() {
-            setArchived(true);
             setLastModifiedDate(LocalDateTime.now());
             return false;
         }
@@ -103,7 +96,6 @@ public class Party {
 
         @PrePersist
         default void prePersist() {
-            setArchived(false);
             setLastModifiedDate(LocalDateTime.now());
         }
     }
