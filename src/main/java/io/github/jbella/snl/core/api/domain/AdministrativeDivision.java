@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-@Table(name = "fw_adminstrative_division")
+@Table(name = "fw_administrative_division")
 public class AdministrativeDivision implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
