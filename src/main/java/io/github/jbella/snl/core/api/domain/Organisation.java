@@ -44,8 +44,7 @@ public class Organisation {
 
     private LocalDate validityDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotFound( action = NotFoundAction.IGNORE )
+    @ManyToOne
     private Organisation parent;
 
     @NotNull

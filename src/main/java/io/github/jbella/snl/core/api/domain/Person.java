@@ -11,8 +11,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.SoftDelete;
 
 import java.time.LocalDate;
@@ -30,13 +28,10 @@ public class Person {
     @UUIDV7
     private UUID id;
 
-    @ManyToOne(optional = false, cascade = jakarta.persistence.CascadeType.REMOVE, fetch = FetchType.LAZY)
-    @NotFound( action = NotFoundAction.EXCEPTION )
+    @ManyToOne(optional = false, cascade = jakarta.persistence.CascadeType.REMOVE)
     private Party party;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotFound( action = NotFoundAction.EXCEPTION )
+    @ManyToOne
     private Organisation organisation;
 
     @Embedded
@@ -102,6 +97,7 @@ public class Person {
     @CreatableEntityView
     @EntityView(Person.class)
     public interface CreateView extends View {
+        void setId(UUID id);
 
         void setSex(String sex);
 
@@ -153,8 +149,6 @@ public class Person {
         @IdMapping
         @NotNull
         UUID getId();
-
-        void setId(UUID id);
 
         @PreUpdate
         default void preUpdate() {

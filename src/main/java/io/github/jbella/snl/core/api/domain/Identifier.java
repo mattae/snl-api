@@ -47,8 +47,7 @@ public class Identifier {
 
     private LocalDateTime toDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotFound( action = NotFoundAction.EXCEPTION )
+    @ManyToOne
     @NotNull
     private Party party;
 

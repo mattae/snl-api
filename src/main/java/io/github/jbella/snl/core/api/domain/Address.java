@@ -59,8 +59,7 @@ public class Address {
     @EqualsAndHashCode.Include
     private String addressType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotFound( action = NotFoundAction.EXCEPTION )
+    @ManyToOne
     @NotNull
     private Party party;
 
