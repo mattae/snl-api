@@ -5,7 +5,10 @@ import com.blazebit.persistence.spring.data.webmvc.impl.json.EntityViewAwareMapp
 import com.blazebit.persistence.spring.data.webmvc.impl.json.EntityViewIdValueHolder;
 import com.blazebit.persistence.view.EntityViewManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import graphql.scalars.ExtendedScalars;
+import io.github.jbella.snl.core.api.services.errors.ExceptionTranslator;
 import org.laxture.sbp.mock.MockSpringBootPluginManager;
 import org.laxture.sbp.mock.MockSpringExtensionFactory;
 import org.pf4j.ExtensionFactory;
@@ -18,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 
 @Configuration
 public class TestConfiguration {
@@ -34,8 +38,11 @@ public class TestConfiguration {
 
     @Bean
     public ObjectMapper entityViewAwareObjectMapper() {
-        return new EntityViewAwareMappingJackson2HttpMessageConverter(evm,
+        var objectMapper = new EntityViewAwareMappingJackson2HttpMessageConverter(evm,
                 blazeWebmvcIdAttributeAccessor()).getObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        return objectMapper;
     }
 
     @Bean
@@ -88,5 +95,10 @@ public class TestConfiguration {
             wiringBuilder.scalar(ExtendedScalars.Url);
             wiringBuilder.scalar(ExtendedScalars.UUID);
         };
+    }
+
+    @ControllerAdvice
+    class ControllerExceptionHandler extends ExceptionTranslator {
+
     }
 }
