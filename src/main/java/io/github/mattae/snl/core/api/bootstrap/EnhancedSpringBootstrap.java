@@ -41,6 +41,7 @@ import org.springframework.graphql.ExecutionGraphQlService;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
+import org.springframework.security.authorization.method.PrePostTemplateDefaults;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -101,6 +102,7 @@ public class EnhancedSpringBootstrap extends SpringBootstrap {
         importBeanFromMainContext(applicationContext, ExecutionGraphQlService.class);
         importBeanFromMainContext(applicationContext, ObjectPostProcessor.class);
         importBeanFromMainContext(applicationContext, HandlerMappingIntrospector.class);
+        importBeanFromMainContext(applicationContext, PrePostTemplateDefaults.class);
         getGraphqlControllers(plugin.getMainApplicationContext())
                 .forEach(controller -> importBeanFromMainContext(applicationContext, controller.getClass()));
 
