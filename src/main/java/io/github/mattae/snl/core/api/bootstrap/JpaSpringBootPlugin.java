@@ -15,7 +15,8 @@ public abstract class JpaSpringBootPlugin extends SpringBootPlugin {
         super(wrapper, ArrayUtils.addAll(pluginConfigurers, new SnlWebConfigurer(),
                 new SnlJpaConfigurer(ArrayUtils.addAll(modelPackages.stream()
                                 .map(Class::getPackageName).toArray(String[]::new),
-                        CoreDomain.class.getPackageName())), new BlazePersistenceConfigurer(modelPackages)));
+                        CoreDomain.class.getPackageName())), new BlazePersistenceConfigurer(modelPackages),
+                new MethodAuthorizationAccessDeniedConfigurer()));
     }
 
     public Set<String> getExcludeConfigurations() {
