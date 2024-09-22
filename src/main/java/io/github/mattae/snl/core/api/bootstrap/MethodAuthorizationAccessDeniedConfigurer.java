@@ -5,6 +5,7 @@ import org.laxture.sbp.spring.boot.IPluginConfigurer;
 import org.laxture.sbp.spring.boot.SpringBootstrap;
 import org.laxture.sbp.util.BeanUtil;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
@@ -41,7 +42,7 @@ public class MethodAuthorizationAccessDeniedConfigurer implements IPluginConfigu
     public void onStop(SpringBootPlugin plugin) {
         beanNames.forEach(beanName -> {
             var mainApplicationContext = plugin.getMainApplicationContext();
-            mainApplicationContext.removeBeanDefinition(beanName);
+            ((AbstractAutowireCapableBeanFactory) mainApplicationContext.getBeanFactory()).destroySingleton(beanName);
         });
     }
 
