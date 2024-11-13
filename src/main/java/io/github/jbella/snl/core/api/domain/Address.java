@@ -5,7 +5,6 @@ import com.blazebit.persistence.view.PreRemove;
 import com.blazebit.persistence.view.*;
 import io.github.jbella.snl.core.api.config.AuditEntityListener;
 import io.github.jbella.snl.core.api.id.UUIDV7;
-import io.github.jbella.snl.core.api.id.UUIDV7Generator;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -13,21 +12,21 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.ResultCheckStyle;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.annotations.SoftDelete;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Where(clause = "archived = false")
 @Getter
 @Setter
 @Entity
 @Table(name = "fw_party_addresses")
-@SQLDelete(sql = "update fw_party_addresses set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
+@SoftDelete(columnName = "archived")
+@SQLRestriction("archived = false")
 @EntityListeners(AuditEntityListener.class)
 public class Address {
     @Id
@@ -61,14 +60,14 @@ public class Address {
     private String addressType;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotFound( action = NotFoundAction.EXCEPTION )
     @NotNull
     private Party party;
-
-    private Boolean archived = false;
 
     private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
     @PreUpdate
+    @jakarta.persistence.PreRemove
     public void update() {
         lastModifiedDate = LocalDateTime.now();
     }
@@ -118,17 +117,12 @@ public class Address {
             setAddressType("Residential");
         }
 
-        Boolean getArchived();
-
-        void setArchived(Boolean archived);
-
         LocalDateTime getLastModifiedDate();
 
         void setLastModifiedDate(LocalDateTime date);
 
         @PreRemove
         default boolean preRemove() {
-            setArchived(true);
             setLastModifiedDate(LocalDateTime.now());
             return false;
         }
@@ -140,7 +134,6 @@ public class Address {
 
         @PrePersist
         default void prePersist() {
-            setArchived(false);
             setLastModifiedDate(LocalDateTime.now());
         }
     }

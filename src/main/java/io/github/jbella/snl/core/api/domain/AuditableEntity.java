@@ -2,9 +2,14 @@ package io.github.jbella.snl.core.api.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+
 import java.time.LocalDateTime;
 
+@Setter
 @MappedSuperclass
+@Slf4j
 public abstract class AuditableEntity implements Auditable<String> {
     @Column(name = "created_by", nullable = true)
     private String createdBy;
@@ -23,17 +28,9 @@ public abstract class AuditableEntity implements Auditable<String> {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
     @Override
     public LocalDateTime getCreatedDate() {
         return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
     }
 
     @Override
@@ -41,16 +38,8 @@ public abstract class AuditableEntity implements Auditable<String> {
         return lastModifiedBy;
     }
 
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
     @Override
     public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
     }
 }

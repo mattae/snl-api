@@ -7,15 +7,14 @@ import com.blazebit.persistence.view.*;
 import com.blazebit.persistence.view.filter.ContainsIgnoreCaseFilter;
 import com.blazebit.persistence.view.filter.EqualFilter;
 import io.github.jbella.snl.core.api.id.UUIDV7;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.*;
+import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import org.hibernate.annotations.ResultCheckStyle;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.SoftDelete;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,15 +24,14 @@ import java.util.UUID;
 @Entity
 @Data
 @EqualsAndHashCode(of = "id", callSuper = false)
-@SQLDelete(sql = "update fw_organisation set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
-@Where(clause = "archived = false")
+@SoftDelete(columnName = "archived")
 @Table(name = "fw_organisation")
 public class Organisation {
     @Id
     @UUIDV7
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     private Party party;
 
     private String name;
@@ -46,13 +44,12 @@ public class Organisation {
 
     private LocalDate validityDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotFound( action = NotFoundAction.IGNORE )
     private Organisation parent;
 
     @NotNull
     private String type;
-
-    private Boolean archived = false;
 
     private Boolean active = true;
 
@@ -130,10 +127,6 @@ public class Organisation {
 
         void setParty(Party.PartyView party);
 
-        Boolean getArchived();
-
-        void setArchived(Boolean archived);
-
         Boolean getActive();
 
         void setActive(Boolean active);
@@ -144,20 +137,13 @@ public class Organisation {
 
         @PreRemove
         default boolean preRemove() {
-            setArchived(true);
             setLastModifiedDate(LocalDateTime.now());
             return false;
-        }
-
-        @PreUpdate
-        default void preUpdate() {
-            setLastModifiedDate(LocalDateTime.now());
         }
 
         @PrePersist
         default void prePersist() {
             getParty().setType("ORGANISATION");
-            setArchived(false);
             setActive(true);
             setLastModifiedDate(LocalDateTime.now());
         }
@@ -171,6 +157,11 @@ public class Organisation {
         UUID getId();
 
         void setId(UUID id);
+
+        @com.blazebit.persistence.view.PreUpdate
+        default void preUpdate() {
+            setLastModifiedDate(LocalDateTime.now());
+        }
     }
 
     @EntityView(Organisation.class)

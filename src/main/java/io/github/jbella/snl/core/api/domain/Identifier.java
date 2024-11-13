@@ -5,26 +5,24 @@ import com.blazebit.persistence.view.EntityView;
 import com.blazebit.persistence.view.IdMapping;
 import com.blazebit.persistence.view.UpdatableEntityView;
 import io.github.jbella.snl.core.api.id.UUIDV7;
-import io.github.jbella.snl.core.api.id.UUIDV7Generator;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ResultCheckStyle;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.SoftDelete;
 
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "fw_party_identifiers")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Where(clause = "archived = false")
+@SoftDelete(columnName = "archived")
 @Getter
 @Setter
-@SQLDelete(sql = "update fw_party_identifiers set archived = true, last_modified_date = current_timestamp where id = ?", check = ResultCheckStyle.COUNT)
 public class Identifier {
     @Id
     @UUIDV7
@@ -50,14 +48,14 @@ public class Identifier {
     private LocalDateTime toDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotFound( action = NotFoundAction.EXCEPTION )
     @NotNull
     private Party party;
-
-    private Boolean archived = false;
 
     private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
     @PreUpdate
+    @PreRemove
     public void update() {
         lastModifiedDate = LocalDateTime.now();
     }
@@ -94,10 +92,6 @@ public class Identifier {
 
         void setToDate(LocalDateTime toDate);
 
-        Boolean getArchived();
-
-        void setArchived(Boolean archived);
-
         Party.View getParty();
 
         void setParty(Party.View party);
@@ -108,7 +102,6 @@ public class Identifier {
 
         @com.blazebit.persistence.view.PreRemove
         default boolean preRemove() {
-            setArchived(true);
             setLastModifiedDate(LocalDateTime.now());
             return false;
         }
@@ -120,7 +113,6 @@ public class Identifier {
 
         @com.blazebit.persistence.view.PrePersist
         default void prePersist() {
-            setArchived(false);
             setLastModifiedDate(LocalDateTime.now());
         }
     }

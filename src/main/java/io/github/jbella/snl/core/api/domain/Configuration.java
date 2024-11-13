@@ -2,14 +2,14 @@ package io.github.jbella.snl.core.api.domain;
 
 import com.blazebit.persistence.view.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 import java.util.Set;
@@ -32,10 +32,12 @@ public class Configuration {
 
     private String description;
 
+    private Boolean personalized;
+
     @Column(name = "_order")
     private Integer order = 1;
 
-    @Type(JsonBinaryType.class)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
     private Set<Data> data;
 
@@ -62,6 +64,10 @@ public class Configuration {
         void setOrder(Integer order);
 
         PluginView getPlugin();
+
+        Boolean getPersonalized();
+
+        void setPersonalized(Boolean personalized);
 
         @NotEmpty
         @MappingSingular

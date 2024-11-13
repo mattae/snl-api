@@ -1,14 +1,14 @@
 package io.github.jbella.snl.core.api.domain;
 
 import com.blazebit.persistence.view.*;
-import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,14 +28,12 @@ public class ValueSet {
     @NotNull
     private String system;
 
-    private String lang;
-
     private String description;
 
     @Column(name = "_order")
     private Integer order = 1;
 
-    @Type(JsonBinaryType.class)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
     Set<Value> values = new HashSet<>();
 
@@ -51,10 +49,6 @@ public class ValueSet {
         String getSystem();
 
         void setSystem(String system);
-
-        String getLang();
-
-        void setLang(String lang);
 
         String getDescription();
 
@@ -97,8 +91,6 @@ public class ValueSet {
         String getSystem();
 
         String getDescription();
-
-        String getLang();
 
         Integer getOrder();
 
