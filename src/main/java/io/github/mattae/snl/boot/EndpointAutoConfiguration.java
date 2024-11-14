@@ -6,7 +6,6 @@ import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointPr
 import org.springframework.boot.actuate.autoconfigure.web.server.ManagementPortType;
 import org.springframework.boot.actuate.endpoint.ExposableEndpoint;
 import org.springframework.boot.actuate.endpoint.web.*;
-import org.springframework.boot.actuate.endpoint.web.annotation.ControllerEndpointsSupplier;
 import org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +23,6 @@ public class EndpointAutoConfiguration {
 
     @Bean
     public WebMvcEndpointHandlerMapping endpointHandlerMapping(WebEndpointsSupplier webEndpointsSupplier,
-                                                               ControllerEndpointsSupplier controllerEndpointsSupplier,
                                                                EndpointMediaTypes endpointMediaTypes,
                                                                CorsEndpointProperties corsProperties,
                                                                WebEndpointProperties webEndpointProperties,
@@ -32,7 +30,6 @@ public class EndpointAutoConfiguration {
         List<ExposableEndpoint<?>> allEndpoints = new ArrayList<>();
         Collection<ExposableWebEndpoint> webEndpoints = webEndpointsSupplier.getEndpoints();
         allEndpoints.addAll(webEndpoints);
-        allEndpoints.addAll(controllerEndpointsSupplier.getEndpoints());
         String basePath = webEndpointProperties.getBasePath();
         EndpointMapping endpointMapping = new EndpointMapping(basePath);
         boolean shouldRegisterLinksMapping = shouldRegisterLinksMapping(webEndpointProperties, environment, basePath);
