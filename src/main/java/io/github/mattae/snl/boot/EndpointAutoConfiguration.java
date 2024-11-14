@@ -27,9 +27,8 @@ public class EndpointAutoConfiguration {
                                                                CorsEndpointProperties corsProperties,
                                                                WebEndpointProperties webEndpointProperties,
                                                                Environment environment) {
-        List<ExposableEndpoint<?>> allEndpoints = new ArrayList<>();
         Collection<ExposableWebEndpoint> webEndpoints = webEndpointsSupplier.getEndpoints();
-        allEndpoints.addAll(webEndpoints);
+        List<ExposableEndpoint<?>> allEndpoints = new ArrayList<>(webEndpoints);
         String basePath = webEndpointProperties.getBasePath();
         EndpointMapping endpointMapping = new EndpointMapping(basePath);
         boolean shouldRegisterLinksMapping = shouldRegisterLinksMapping(webEndpointProperties, environment, basePath);
