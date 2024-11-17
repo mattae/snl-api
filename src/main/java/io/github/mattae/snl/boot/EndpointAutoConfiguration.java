@@ -1,12 +1,14 @@
 package io.github.mattae.snl.boot;
 
-import io.github.mattae.snl.core.api.bootstrap.PluginWebMvcEndpointHandlerMapping;
+import lombok.extern.slf4j.Slf4j;
+import org.laxture.sbp.SpringBootPlugin;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.web.server.ManagementPortType;
 import org.springframework.boot.actuate.endpoint.ExposableEndpoint;
 import org.springframework.boot.actuate.endpoint.web.*;
 import org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -18,7 +20,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Configuration
-@Profile("!plugin")
+@ConditionalOnMissingBean(SpringBootPlugin.class)
+@Slf4j
 public class EndpointAutoConfiguration {
 
     @Bean
@@ -27,6 +30,7 @@ public class EndpointAutoConfiguration {
                                                                CorsEndpointProperties corsProperties,
                                                                WebEndpointProperties webEndpointProperties,
                                                                Environment environment) {
+        log.info("Creating beans");
         Collection<ExposableWebEndpoint> webEndpoints = webEndpointsSupplier.getEndpoints();
         List<ExposableEndpoint<?>> allEndpoints = new ArrayList<>(webEndpoints);
         String basePath = webEndpointProperties.getBasePath();

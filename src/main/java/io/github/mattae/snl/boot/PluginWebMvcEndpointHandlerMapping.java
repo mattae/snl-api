@@ -1,4 +1,4 @@
-package io.github.mattae.snl.core.api.bootstrap;
+package io.github.mattae.snl.boot;
 
 import org.laxture.sbp.SpringBootPlugin;
 import org.springframework.boot.actuate.endpoint.web.*;

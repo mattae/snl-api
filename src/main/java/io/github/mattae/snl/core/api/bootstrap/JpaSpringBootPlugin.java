@@ -13,6 +13,7 @@ public abstract class JpaSpringBootPlugin extends SpringBootPlugin {
 
     public JpaSpringBootPlugin(PluginWrapper wrapper, List<Class<?>> modelPackages, IPluginConfigurer... pluginConfigurers) {
         super(wrapper, ArrayUtils.addAll(pluginConfigurers, new SnlWebConfigurer(),
+                new SpringDocConfigurer(),
                 new SnlJpaConfigurer(ArrayUtils.addAll(modelPackages.stream()
                                 .map(Class::getPackageName).toArray(String[]::new),
                         CoreDomain.class.getPackageName())), new BlazePersistenceConfigurer(modelPackages),

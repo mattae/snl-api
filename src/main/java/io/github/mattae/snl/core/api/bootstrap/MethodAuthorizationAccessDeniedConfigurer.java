@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class MethodAuthorizationAccessDeniedConfigurer implements IPluginConfigurer {
+class MethodAuthorizationAccessDeniedConfigurer implements IPluginConfigurer {
     private final Set<String> beanNames = new HashSet<>();
 
     @Override

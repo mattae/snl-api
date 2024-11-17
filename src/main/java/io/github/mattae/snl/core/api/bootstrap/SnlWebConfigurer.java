@@ -1,5 +1,6 @@
 package io.github.mattae.snl.core.api.bootstrap;
 
+import io.github.mattae.snl.boot.PluginWebMvcEndpointHandlerMapping;
 import org.laxture.sbp.SpringBootPlugin;
 import org.laxture.sbp.internal.PluginRequestMappingAdapter;
 import org.laxture.sbp.spring.boot.configurer.SbpWebConfigurer;
