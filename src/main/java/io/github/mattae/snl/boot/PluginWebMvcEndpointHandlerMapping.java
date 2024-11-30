@@ -35,7 +35,11 @@ public class PluginWebMvcEndpointHandlerMapping extends WebMvcEndpointHandlerMap
                     path = path.replace("{*" + matchAllRemainingPathSegmentsVariable + "}", "**");
                 }
 
-                registerMapping(endpoint, predicate, operation, path);
+                try {
+                    registerMapping(endpoint, predicate, operation, path);
+                } catch (Exception e) {
+
+                }
             }
         });
     }

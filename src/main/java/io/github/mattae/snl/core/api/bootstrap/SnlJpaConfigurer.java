@@ -8,7 +8,7 @@ import org.laxture.sbp.spring.boot.SpringBootstrap;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
-public class SnlJpaConfigurer extends SbpJpaConfigurer {
+class SnlJpaConfigurer extends SbpJpaConfigurer {
 
     public SnlJpaConfigurer(String[] modelPackages) {
         super(modelPackages);

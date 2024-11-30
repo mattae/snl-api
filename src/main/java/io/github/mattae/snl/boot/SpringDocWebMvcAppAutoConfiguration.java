@@ -1,9 +1,7 @@
 package io.github.mattae.snl.boot;
 
-import io.github.mattae.snl.core.api.controller.RegistrableMultipleOpenApiWebMvcResource;
-import jakarta.annotation.PostConstruct;
+import io.github.mattae.snl.boot.controller.RegistrableMultipleOpenApiWebMvcResource;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.laxture.sbp.SpringBootPlugin;
 import org.springdoc.core.conditions.MultipleOpenApiSupportCondition;
 import org.springdoc.core.customizers.SpringDocCustomizers;
@@ -36,7 +34,6 @@ import static org.springdoc.core.utils.Constants.SPRINGDOC_USE_MANAGEMENT_PORT;
 @AutoConfigureBefore(MultipleOpenApiSupportConfiguration.class)
 @ConditionalOnMissingBean(SpringBootPlugin.class)
 @RequiredArgsConstructor
-@Slf4j
 public class SpringDocWebMvcAppAutoConfiguration {
     private final ApplicationContext applicationContext;
 
@@ -53,17 +50,12 @@ public class SpringDocWebMvcAppAutoConfiguration {
             SpringDocProviders springDocProviders,
             SpringDocCustomizers springDocCustomizers) {
         return new RegistrableMultipleOpenApiWebMvcResource(
-            applicationContext,
-            groupedOpenApis,
-            defaultOpenAPIBuilder, requestBuilder,
-            responseBuilder, operationParser,
-            springDocConfigProperties,
-            springDocProviders,
-            springDocCustomizers);
-    }
-
-    @PostConstruct
-    public void init() {
-        log.info("SpringDocWebMvcAppAutoConfiguration created");
+                applicationContext,
+                groupedOpenApis,
+                defaultOpenAPIBuilder, requestBuilder,
+                responseBuilder, operationParser,
+                springDocConfigProperties,
+                springDocProviders,
+                springDocCustomizers);
     }
 }

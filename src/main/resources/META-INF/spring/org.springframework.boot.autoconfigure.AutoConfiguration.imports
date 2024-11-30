@@ -1,0 +1,2 @@
+io.github.mattae.snl.boot.EndpointAutoConfiguration
+io.github.mattae.snl.boot.SpringDocWebMvcAppAutoConfiguration
