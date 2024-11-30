@@ -653,4 +653,20 @@
             <column name="personalized" type="bool"/>
         </addColumn>
     </changeSet>
+
+    <changeSet id="20241124-1" author="mattae">
+        <addColumn tableName="fw_preference">
+            <column name="subject" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <dropColumn tableName="fw_preference" columnName="key"/>
+        <dropColumn tableName="fw_preference" columnName="value"/>
+
+        <addUniqueConstraint tableName="fw_preference" columnNames="subject, category"/>
+    </changeSet>
 </databaseChangeLog>

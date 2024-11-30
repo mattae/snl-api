@@ -14,7 +14,7 @@ import java.util.Set;
 public abstract class DataSourceSpringBootPlugin extends SpringBootPlugin {
     public DataSourceSpringBootPlugin(PluginWrapper wrapper, IPluginConfigurer... pluginConfigurers) {
         super(wrapper, ArrayUtils.addAll(pluginConfigurers, new SnlWebConfigurer(),
-                new SbpDataSourceConfigurer(), new MethodAuthorizationAccessDeniedConfigurer()));
+                new SbpDataSourceConfigurer(), new SpringDocConfigurer(), new MethodAuthorizationAccessDeniedConfigurer()));
     }
 
     public Set<String> getExcludeConfigurations() {

@@ -7,6 +7,10 @@
             "type": "string",
             "minLength": 4
         },
+        "logo": {
+            "type": "string",
+            "pattern": "<svg[^>]*>([\\s\\S]*?)</svg>"
+        },
         "name": {
             "type": "string",
             "minLength": 3

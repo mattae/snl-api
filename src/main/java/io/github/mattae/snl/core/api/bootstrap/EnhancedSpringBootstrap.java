@@ -16,15 +16,15 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.actuate.endpoint.EndpointFilter;
+import org.springframework.boot.actuate.endpoint.OperationFilter;
 import org.springframework.boot.actuate.endpoint.invoke.OperationInvokerAdvisor;
 import org.springframework.boot.actuate.endpoint.invoke.ParameterValueMapper;
-import org.springframework.boot.actuate.endpoint.web.EndpointMediaTypes;
-import org.springframework.boot.actuate.endpoint.web.ExposableWebEndpoint;
-import org.springframework.boot.actuate.endpoint.web.PathMapper;
+import org.springframework.boot.actuate.endpoint.web.*;
 import org.springframework.boot.actuate.endpoint.web.annotation.WebEndpointDiscoverer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafProperties;
+import org.springframework.boot.ssl.SslBundles;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.interceptor.BeanFactoryCacheOperationSourceAdvisor;
 import org.springframework.context.ApplicationContext;
@@ -41,10 +41,9 @@ import org.springframework.graphql.ExecutionGraphQlService;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.graphql.execution.RuntimeWiringConfigurer;
-import org.springframework.security.authorization.method.PrePostTemplateDefaults;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.annotation.AnnotationTemplateExpressionDefaults;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.TransactionManager;
 import org.springframework.util.ClassUtils;
@@ -100,9 +99,9 @@ public class EnhancedSpringBootstrap extends SpringBootstrap {
         importBeanFromMainContext(applicationContext, BeanFactoryCacheOperationSourceAdvisor.class);
         importBeanFromMainContext(applicationContext, CacheManager.class);
         importBeanFromMainContext(applicationContext, ExecutionGraphQlService.class);
-        importBeanFromMainContext(applicationContext, ObjectPostProcessor.class);
         importBeanFromMainContext(applicationContext, HandlerMappingIntrospector.class);
-        importBeanFromMainContext(applicationContext, PrePostTemplateDefaults.class);
+        importBeanFromMainContext(applicationContext, AnnotationTemplateExpressionDefaults.class);
+        importBeanFromMainContext(applicationContext, SslBundles.class);
         getGraphqlControllers(plugin.getMainApplicationContext())
                 .forEach(controller -> importBeanFromMainContext(applicationContext, controller.getClass()));
 
@@ -168,13 +167,16 @@ public class EnhancedSpringBootstrap extends SpringBootstrap {
         ParameterValueMapper parameterValueMapper = getMainApplicationContext().getBean(ParameterValueMapper.class);
         EndpointMediaTypes endpointMediaTypes = getMainApplicationContext().getBean(EndpointMediaTypes.class);
         ObjectProvider<PathMapper> endpointPathMappers = getMainApplicationContext().getBeanProvider(PathMapper.class);
+        ObjectProvider<AdditionalPathsMapper> additionalPathsMappers = getMainApplicationContext().getBeanProvider(AdditionalPathsMapper.class);
         ObjectProvider<OperationInvokerAdvisor> invokerAdvisors = getMainApplicationContext().getBeanProvider(OperationInvokerAdvisor.class);
         ObjectProvider<EndpointFilter<ExposableWebEndpoint>> filters = getMainApplicationContext()
                 .getBeanProvider(ResolvableType.forClass(EndpointFilter.class));
+        ObjectProvider<OperationFilter<WebOperation>> operationFilters = getMainApplicationContext()
+                .getBeanProvider(ResolvableType.forType(WebOperation.class));
 
         var discoverer = new WebEndpointDiscoverer(applicationContext, parameterValueMapper, endpointMediaTypes,
-                endpointPathMappers.orderedStream().toList(), invokerAdvisors.orderedStream().toList(),
-                filters.orderedStream().toList());
+                endpointPathMappers.orderedStream().toList(), additionalPathsMappers.stream().toList(), invokerAdvisors.orderedStream().toList(),
+                filters.orderedStream().toList(), operationFilters.orderedStream().toList());
         beanDefinition = new GenericBeanDefinition();
         beanDefinition.setBeanClass(WebEndpointDiscoverer.class);
         beanDefinition.setInstanceSupplier(() -> discoverer);
@@ -285,7 +287,6 @@ public class EnhancedSpringBootstrap extends SpringBootstrap {
                 liquibase.setDataSource(dataSource);
                 liquibase.setChangeLog(properties.getChangeLog());
                 liquibase.setClearCheckSums(properties.isClearChecksums());
-                liquibase.setContexts(properties.getContexts());
                 liquibase.setDefaultSchema(properties.getDefaultSchema());
                 liquibase.setLiquibaseSchema(properties.getLiquibaseSchema());
                 liquibase.setLiquibaseTablespace(properties.getLiquibaseTablespace());
@@ -293,7 +294,6 @@ public class EnhancedSpringBootstrap extends SpringBootstrap {
                 liquibase.setDatabaseChangeLogLockTable(properties.getDatabaseChangeLogLockTable());
                 liquibase.setDropFirst(properties.isDropFirst());
                 liquibase.setShouldRun(properties.isEnabled());
-                liquibase.setLabelFilter(properties.getLabelFilter());
                 liquibase.setChangeLogParameters(properties.getParameters());
                 liquibase.setRollbackFile(properties.getRollbackFile());
                 liquibase.setTestRollbackOnUpdate(properties.isTestRollbackOnUpdate());

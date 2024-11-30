@@ -1,4 +1,4 @@
-package io.github.mattae.snl.core.api.bootstrap;
+package io.github.mattae.snl.boot;
 
 import org.laxture.sbp.SpringBootPlugin;
 import org.springframework.boot.actuate.endpoint.web.*;
@@ -35,7 +35,11 @@ public class PluginWebMvcEndpointHandlerMapping extends WebMvcEndpointHandlerMap
                     path = path.replace("{*" + matchAllRemainingPathSegmentsVariable + "}", "**");
                 }
 
-                registerMapping(endpoint, predicate, operation, path);
+                try {
+                    registerMapping(endpoint, predicate, operation, path);
+                } catch (Exception e) {
+
+                }
             }
         });
     }

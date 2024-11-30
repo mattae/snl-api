@@ -1,15 +1,15 @@
 package io.github.mattae.snl.boot;
 
-import io.github.mattae.snl.core.api.bootstrap.PluginWebMvcEndpointHandlerMapping;
+import org.laxture.sbp.SpringBootPlugin;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.web.server.ManagementPortType;
 import org.springframework.boot.actuate.endpoint.ExposableEndpoint;
 import org.springframework.boot.actuate.endpoint.web.*;
 import org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Configuration
-@Profile("!plugin")
+@ConditionalOnMissingBean(SpringBootPlugin.class)
 public class EndpointAutoConfiguration {
 
     @Bean
